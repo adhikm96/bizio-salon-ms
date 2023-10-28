@@ -26,11 +26,6 @@ public class WorkSchedule extends LastUpdateDetail{
     private String name;
     private StatusEnum status;
 
-    @JsonBackReference
-    @ManyToOne
-    @JoinColumn(name = "branch_id")
-    private Branch branch;
-
     @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "workSchedule")
     private List<WorkScheduleItem> workScheduleItems;

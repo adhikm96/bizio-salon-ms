@@ -39,8 +39,9 @@ public class Branch extends LastUpdateDetail{
     @JoinColumn(name = "company_id")
     private Company company;
 
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "work_schedule_id")
+    private WorkSchedule WorkSchedule;
 
-    @JsonManagedReference
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "branch")
-    private List<WorkSchedule> workSchedules;
 }
