@@ -30,9 +30,4 @@ public class TaxHead extends LastUpdateDetail{
 
     private ChargeOnEnum chargeOn;
     private StatusEnum status;
-
-//    @ManyToMany
-//    @JoinTable(name = "tax_head_items", joinColumns = @JoinColumn(name = "tax_head_id"),
-//            inverseJoinColumns = @JoinColumn(name = "item_id"))
-//    private List<Item> items = new ArrayList<>();
 }
