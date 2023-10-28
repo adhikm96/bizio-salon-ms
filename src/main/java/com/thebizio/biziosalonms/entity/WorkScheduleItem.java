@@ -1,5 +1,6 @@
 package com.thebizio.biziosalonms.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.thebizio.biziosalonms.enums.WorkScheduleDayEnum;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,4 +27,9 @@ public class WorkScheduleItem extends LastUpdateDetail{
     private LocalTime breakStartTime;
     private LocalTime breakEndTime;
     private LocalTime endTime;
+
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "work_schedule_id")
+    private WorkSchedule workSchedule;
 }
