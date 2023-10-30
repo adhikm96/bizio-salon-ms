@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "items")
+@Table(name = "appointments")
 @Getter
 @Setter
 @NoArgsConstructor
