@@ -17,7 +17,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Appointment {
+public class Appointment extends LastUpdateDetail{
 
     @Id
     @GeneratedValue(generator = "uuid4")
