@@ -26,7 +26,7 @@ public class Appointment extends LastUpdateDetail{
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
-    private Customer customer;
+    private CustomerUser customerUser;
 
     private LocalDate appointmentDate;
 

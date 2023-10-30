@@ -34,7 +34,7 @@ public class Invoice extends LastUpdateDetail {
 
     @ManyToOne
     @JoinColumn
-    private Customer customer;
+    private CustomerUser customerUser;
 
     private String customerName;
 

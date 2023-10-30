@@ -23,11 +23,6 @@ public class User extends LastUpdateDetail{
     @Column(columnDefinition = "uuid")
     private UUID id;
 
-    private String firstName;
-    private String lastName;
-    private String username;
-    private String email;
-    private String mobile;
     private String bizioId;
     private String empCode;
     private EmpType empType;
