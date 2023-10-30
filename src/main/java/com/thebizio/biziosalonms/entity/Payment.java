@@ -25,7 +25,7 @@ public class Payment extends LastUpdateDetail{
     private LocalDate paymentDate;
     private String paymentRef;
 
-//    @ManyToOne
-//    @JoinColumn(name = "invoice_id")
-//    private Invoice invoice;
+    @ManyToOne
+    @JoinColumn(name = "invoice_id")
+    private Invoice invoice;
 }

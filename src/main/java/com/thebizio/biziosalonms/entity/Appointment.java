@@ -36,16 +36,26 @@ public class Appointment {
     @JoinColumn(name = "branch_id")
     private Branch branch;
 
-    @OneToMany(mappedBy="appointment", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    List<AppointmentItem> productAndServices;  // Products & Services
+    @ManyToMany(cascade = { CascadeType.ALL })
+    @JoinTable(
+            name = "appointment_product_services",
+            joinColumns = { @JoinColumn(name = "appointment_id") },
+            inverseJoinColumns = { @JoinColumn(name = "item_id") }
+    )
+    private List<Item> productAndServices;  // Products & Services
 
-    private AppointmentStatus appointmentStatus;
+    private AppointmentStatus status;
 
-    @OneToMany(mappedBy = "appointment", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    List<AppointmentItem> purchases;
+    @ManyToMany(cascade = { CascadeType.ALL })
+    @JoinTable(
+            name = "appointment_purchases",
+            joinColumns = { @JoinColumn(name = "appointment_id") },
+            inverseJoinColumns = { @JoinColumn(name = "item_id") }
+    )
+    private List<Item> purchases;
 
     @Column(columnDefinition = "text")
-    private String Notes;
+    private String notes;
 
     @ManyToOne
     @JoinColumn(name = "assigned_to")

@@ -38,8 +38,13 @@ public class Invoice {
 
     private String customerName;
 
-    @OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<InvoiceItem> items;
+    @ManyToMany(cascade = { CascadeType.ALL })
+    @JoinTable(
+            name = "invoice_items",
+            joinColumns = { @JoinColumn(name = "invoice_id") },
+            inverseJoinColumns = { @JoinColumn(name = "item_id") }
+    )
+    private List<Item> items;
 
     private Double grossTotal;
 
@@ -53,5 +58,5 @@ public class Invoice {
 
     private Double netTotal;
 
-    private InvoiceStatus invoiceStatus;
+    private InvoiceStatus status;
 }
