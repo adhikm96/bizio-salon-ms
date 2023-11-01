@@ -1,11 +1,13 @@
 package com.thebizio.biziosalonms.controller;
 
+import com.thebizio.biziosalonms.dto.ResponseMessageDto;
 import com.thebizio.biziosalonms.dto.salon_user.SalonUserListDto;
 import com.thebizio.biziosalonms.dto.salon_user.SalonUserUpdateDto;
 import com.thebizio.biziosalonms.enums.PaySchedule;
 import com.thebizio.biziosalonms.enums.StatusEnum;
 import com.thebizio.biziosalonms.projections.salon_user.SalonUserDetailPrj;
 import com.thebizio.biziosalonms.service.SalonUserService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -44,6 +46,16 @@ public class SalonUserController {
     @PutMapping("/{uId}")
     void updateSalonUser(@PathVariable UUID uId, @RequestBody @Valid SalonUserUpdateDto dto) {
         salonUserService.updateUser(uId, dto);
+    }
+
+    @PostMapping("/enable/{uId}")
+    public ResponseEntity<ResponseMessageDto> enableUser(@PathVariable(name = "uId") UUID uId){
+        return ResponseEntity.ok(new ResponseMessageDto(salonUserService.toggleUser(uId, StatusEnum.ENABLED)));
+    }
+
+    @PostMapping("/disable/{uId}")
+    public ResponseEntity<ResponseMessageDto> disableUser(@PathVariable(name = "uId") UUID uId) {
+        return ResponseEntity.ok(new ResponseMessageDto(salonUserService.toggleUser(uId, StatusEnum.DISABLED)));
     }
 
 }

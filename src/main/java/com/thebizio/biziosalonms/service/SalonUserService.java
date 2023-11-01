@@ -2,10 +2,12 @@ package com.thebizio.biziosalonms.service;
 
 import com.thebizio.biziosalonms.dto.salon_user.SalonUserListDto;
 import com.thebizio.biziosalonms.dto.salon_user.SalonUserUpdateDto;
+import com.thebizio.biziosalonms.entity.CustomerUser;
 import com.thebizio.biziosalonms.entity.User;
 import com.thebizio.biziosalonms.enums.PaySchedule;
 import com.thebizio.biziosalonms.enums.StatusEnum;
 import com.thebizio.biziosalonms.exception.NotFoundException;
+import com.thebizio.biziosalonms.exception.ValidationException;
 import com.thebizio.biziosalonms.projections.salon_user.SalonUserDetailPrj;
 import com.thebizio.biziosalonms.repo.SalonUserRepo;
 import com.thebizio.biziosalonms.specification.SalonUserSpecification;
@@ -70,5 +72,13 @@ public class SalonUserService {
             salonUser.setBranch(branchService.findById(dto.getBranchId()));
 
         salonUserRepo.save(salonUser);
+    }
+
+    public String toggleUser(UUID uId, StatusEnum status) {
+        User salonUser = findById(uId);
+        if (salonUser.getStatus().equals(status)) throw new ValidationException("Salon User is already "+status.toString().toLowerCase());
+        salonUser.setStatus(status);
+        salonUserRepo.save(salonUser);
+        return ConstantMsg.OK;
     }
 }

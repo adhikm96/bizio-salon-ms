@@ -15,8 +15,8 @@ import java.util.UUID;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -37,7 +37,7 @@ public class SalonUserControllerTest extends BaseControllerTestCase {
     }
 
     @Test
-    void list_all() throws Exception {
+    void listAllTest() throws Exception {
         mvc.perform(mvcReqHelper.setUp(get("/api/v1/salon-users"), demoEntitiesGenerator.getAdminUser()))
                 .andExpect(jsonPath("$.length()", is(2)));
 
@@ -165,5 +165,30 @@ public class SalonUserControllerTest extends BaseControllerTestCase {
         assertEquals(salonUserUpdateDto.getEmpType(), salonUser1.getEmpType());
         assertEquals(salonUserUpdateDto.getBranchId(), salonUser1.getBranch().getId());
         assertEquals(salonUserUpdateDto.getWorkScheduleId(), salonUser1.getWorkSchedule().getId());
+    }
+
+    @Test
+    void statusChangeTest() throws Exception {
+        salonUser1 = demoEntitiesGenerator.getSalonUser(demoEntitiesGenerator.getBranch(), demoEntitiesGenerator.getWorkSchedule(), StatusEnum.ENABLED);
+
+        mvc.perform(mvcReqHelper.setUp(post("/api/v1/salon-users/disable/" + salonUser1.getId()), demoEntitiesGenerator.getAdminUser()))
+                .andExpect(jsonPath("$.message", is("OK")));
+
+        salonUser1 = salonUserService.findById(salonUser1.getId());
+
+        mvc.perform(mvcReqHelper.setUp(post("/api/v1/salon-users/disable/" + salonUser1.getId()), demoEntitiesGenerator.getAdminUser()))
+                .andExpect(status().isBadRequest());
+
+        assertEquals(StatusEnum.DISABLED, salonUserService.findById(salonUser1.getId()).getStatus());
+
+        mvc.perform(mvcReqHelper.setUp(post("/api/v1/salon-users/enable/" + salonUser1.getId()), demoEntitiesGenerator.getAdminUser()))
+                .andExpect(jsonPath("$.message", is("OK")));
+
+        salonUser1 = salonUserService.findById(salonUser1.getId());
+
+        assertEquals(StatusEnum.ENABLED, salonUserService.findById(salonUser1.getId()).getStatus());
+
+        mvc.perform(mvcReqHelper.setUp(post("/api/v1/salon-users/enable/" + salonUser1.getId()), demoEntitiesGenerator.getAdminUser()))
+                .andExpect(status().isBadRequest());
     }
 }
