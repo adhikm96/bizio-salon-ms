@@ -5,7 +5,7 @@ import com.thebizio.biziosalonms.dto.salon_user.SalonUserListDto;
 import com.thebizio.biziosalonms.dto.salon_user.SalonUserUpdateDto;
 import com.thebizio.biziosalonms.enums.PaySchedule;
 import com.thebizio.biziosalonms.enums.StatusEnum;
-import com.thebizio.biziosalonms.projections.salon_user.SalonUserDetailPrj;
+import com.thebizio.biziosalonms.projection.salon_user.SalonUserDetailPrj;
 import com.thebizio.biziosalonms.service.SalonUserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

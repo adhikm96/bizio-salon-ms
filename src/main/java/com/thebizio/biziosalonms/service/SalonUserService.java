@@ -2,13 +2,12 @@ package com.thebizio.biziosalonms.service;
 
 import com.thebizio.biziosalonms.dto.salon_user.SalonUserListDto;
 import com.thebizio.biziosalonms.dto.salon_user.SalonUserUpdateDto;
-import com.thebizio.biziosalonms.entity.CustomerUser;
 import com.thebizio.biziosalonms.entity.User;
 import com.thebizio.biziosalonms.enums.PaySchedule;
 import com.thebizio.biziosalonms.enums.StatusEnum;
 import com.thebizio.biziosalonms.exception.NotFoundException;
 import com.thebizio.biziosalonms.exception.ValidationException;
-import com.thebizio.biziosalonms.projections.salon_user.SalonUserDetailPrj;
+import com.thebizio.biziosalonms.projection.salon_user.SalonUserDetailPrj;
 import com.thebizio.biziosalonms.repo.SalonUserRepo;
 import com.thebizio.biziosalonms.specification.SalonUserSpecification;
 import org.modelmapper.ModelMapper;
@@ -53,12 +52,14 @@ public class SalonUserService {
 
     public SalonUserDetailPrj fetchUser(UUID uId) {
         // TO DO - check for admin
-        return salonUserRepo.findByUserId(uId);
+        return salonUserRepo.findByUserId(uId).orElseThrow(() -> new NotFoundException("salon user not found"));
     }
 
     public void updateUser(UUID uId, SalonUserUpdateDto dto) {
         // TO DO - check for admin
         User salonUser = findById(uId);
+
+        if(!dto.getEmpCode().equals(salonUser.getEmpCode())) checkUniqueEmpCode(dto.getEmpCode());
 
         salonUser.setEmpCode(dto.getEmpCode());
         salonUser.setEmpType(dto.getEmpType());
@@ -72,6 +73,12 @@ public class SalonUserService {
             salonUser.setBranch(branchService.findById(dto.getBranchId()));
 
         salonUserRepo.save(salonUser);
+    }
+
+    private void checkUniqueEmpCode(String empCode) {
+        if(salonUserRepo.existsByEmpCode(empCode)){
+            throw new ValidationException("empCode already exists");
+        }
     }
 
     public String toggleUser(UUID uId, StatusEnum status) {

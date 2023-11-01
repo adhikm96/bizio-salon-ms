@@ -17,6 +17,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -26,8 +27,6 @@ public class SalonUserControllerTest extends BaseControllerTestCase {
 
     @Autowired
     SalonUserService salonUserService;
-
-
 
     @BeforeEach
     public void beforeEach() {
@@ -96,6 +95,9 @@ public class SalonUserControllerTest extends BaseControllerTestCase {
 
     @Test
     void getTest() throws Exception {
+
+        salonUser1 = demoEntitiesGenerator.getSalonUser();
+
         mvc.perform(mvcReqHelper.setUp(get("/api/v1/salon-users/" + salonUser1.getId()), demoEntitiesGenerator.getAdminUser()))
                 .andExpect(jsonPath("$.username", is(salonUser1.getUsername())))
                 .andExpect(jsonPath("$.firstName", is(salonUser1.getFirstName())))
@@ -108,7 +110,18 @@ public class SalonUserControllerTest extends BaseControllerTestCase {
                 .andExpect(jsonPath("$.empType", is(salonUser1.getEmpType().toString())))
                 .andExpect(jsonPath("$.paySchedule", is(salonUser1.getPaySchedule().toString())))
                 .andExpect(jsonPath("$.designation", is(salonUser1.getDesignation())))
-                .andExpect(jsonPath("$.status", is(salonUser1.getStatus().toString())));
+                .andExpect(jsonPath("$.status", is(salonUser1.getStatus().toString())))
+
+                .andExpect(jsonPath("$.streetAddress1", is(salonUser1.getAddress().getStreetAddress1())))
+                .andExpect(jsonPath("$.streetAddress2", is(salonUser1.getAddress().getStreetAddress2())))
+                .andExpect(jsonPath("$.city", is(salonUser1.getAddress().getCity())))
+                .andExpect(jsonPath("$.state", is(salonUser1.getAddress().getState())))
+                .andExpect(jsonPath("$.country", is(salonUser1.getAddress().getCountry())))
+                .andExpect(jsonPath("$.zipcode", is(salonUser1.getAddress().getZipcode())))
+                .andDo(print());
+
+        mvc.perform(mvcReqHelper.setUp(get("/api/v1/salon-users/" + UUID.randomUUID().toString()), demoEntitiesGenerator.getAdminUser()))
+                .andExpect(jsonPath("$.message", is("salon user not found")));
     }
 
     @Test
@@ -165,6 +178,16 @@ public class SalonUserControllerTest extends BaseControllerTestCase {
         assertEquals(salonUserUpdateDto.getEmpType(), salonUser1.getEmpType());
         assertEquals(salonUserUpdateDto.getBranchId(), salonUser1.getBranch().getId());
         assertEquals(salonUserUpdateDto.getWorkScheduleId(), salonUser1.getWorkSchedule().getId());
+
+        // unique empCode check
+
+        salonUser2 = demoEntitiesGenerator.getSalonUser();
+
+        salonUserUpdateDto.setEmpCode(salonUser2.getEmpCode());
+
+        mvc.perform(mvcReqHelper.setUp(put("/api/v1/salon-users/" + salonUser1.getId()), salonUserUpdateDto, demoEntitiesGenerator.getAdminUser()))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message", is("empCode already exists")));
     }
 
     @Test
