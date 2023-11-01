@@ -1,26 +1,19 @@
-package com.thebizio.biziosalonms.entity;
+package com.thebizio.biziosalonms.dto.CreateUpdateItemDto;
 
 import com.thebizio.biziosalonms.enums.ItemType;
 import com.thebizio.biziosalonms.enums.StatusEnum;
-import lombok.Getter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-import javax.persistence.*;
 import java.util.UUID;
 
-@Entity
-@Table(name = "items")
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
 @NoArgsConstructor
-public class Item extends LastUpdateDetail {
+public class ItemDetailDto {
 
-    @Id
-    @GeneratedValue(generator = "uuid4")
-    @Column(columnDefinition = "uuid")
     private UUID id;
-
     private String name;
     private String code;
     private ItemType itemType;
