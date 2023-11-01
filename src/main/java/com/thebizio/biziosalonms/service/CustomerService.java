@@ -67,7 +67,7 @@ public class CustomerService {
         return modelMapper.map(setCustomerDetails(cu,dto), CustomerDetailDto.class);
     }
 
-     CustomerUser setCustomerDetails(CustomerUser cu,CreateUpdateCustomerDto dto){
+     private CustomerUser setCustomerDetails(CustomerUser cu,CreateUpdateCustomerDto dto){
         cu.setFirstName(dto.getFirstName());
         cu.setLastName(dto.getLastName());
         cu.setUsername(dto.getUsername());
@@ -81,7 +81,7 @@ public class CustomerService {
         cu.setCountry(dto.getCountry());
         cu.setZipcode(dto.getZipcode());
         cu.setFederation(dto.getFederation());
-        cu.setStatus(StatusEnum.ENABLED);
+        if (cu.getStatus() == null) cu.setStatus(StatusEnum.ENABLED);
         return customerRepo.save(cu);
     }
 }
