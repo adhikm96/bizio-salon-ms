@@ -23,6 +23,12 @@ public class User extends LastUpdateDetail{
     @Column(columnDefinition = "uuid")
     private UUID id;
 
+    private String firstName;
+    private String lastName;
+    private String username;
+    private String email;
+    private String mobile;
+
     private String bizioId;
     private String empCode;
     private EmpType empType;
@@ -39,4 +45,9 @@ public class User extends LastUpdateDetail{
     @JoinColumn(name = "branch_id")
     @JsonBackReference
     private Branch branch;
+
+    @ManyToOne
+    @JoinColumn
+    @JsonBackReference
+    private Address address;
 }
