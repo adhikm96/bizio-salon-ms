@@ -97,6 +97,20 @@ public class DemoEntitiesGenerator {
         return salonUserRepo.save(user);
     }
 
+    public User getAdminUser() {
+        User user = new User();
+        user.setAddress(getAddress());
+
+        user.setEmail(fakeEmail());
+        user.setUsername(fakeUsername());
+        user.setEmpCode(UUID.randomUUID().toString());
+        user.setEmpType(EmpType.CONTRACT);
+        user.setStatus(StatusEnum.ENABLED);
+        user.setPaySchedule(PaySchedule.MONTHLY);
+
+        return user;
+    }
+
     public User getSalonUser(WorkSchedule workSchedule) {
         User user = new User();
         user.setAddress(getAddress());
