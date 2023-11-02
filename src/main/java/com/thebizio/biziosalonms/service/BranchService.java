@@ -35,14 +35,16 @@ public class BranchService {
 
     final BranchSpecification branchSpecification;
 
+    final CompanyService companyService;
 
-    public BranchService(BranchRepo branchRepo, ModelMapper modelMapper, AddressRepo addressRepo, AddressService addressService, WorkScheduleService workScheduleService, BranchSpecification branchSpecification) {
+    public BranchService(BranchRepo branchRepo, ModelMapper modelMapper, AddressRepo addressRepo, AddressService addressService, WorkScheduleService workScheduleService, BranchSpecification branchSpecification, CompanyService companyService) {
         this.branchRepo = branchRepo;
         this.modelMapper = modelMapper;
         this.addressRepo = addressRepo;
         this.addressService = addressService;
         this.workScheduleService = workScheduleService;
         this.branchSpecification = branchSpecification;
+        this.companyService = companyService;
     }
 
     public Branch findById(UUID id) {
@@ -88,7 +90,8 @@ public class BranchService {
         addressService.setAddressFields(branch.getAddress(), modelMapper.map(createDto, AddressDto.class));
         addressRepo.save(branch.getAddress());
 
-        //        branch.setCompany(createDto.getCompanyId());
+        if (createDto.getCompanyId() != null)
+            branch.setCompany(companyService.findById(createDto.getCompanyId()));
 
         if(createDto.getWorkScheduleId() != null)
             branch.setWorkSchedule(workScheduleService.findById(createDto.getWorkScheduleId()));
