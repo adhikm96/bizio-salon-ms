@@ -61,6 +61,9 @@ public class Appointment extends LastUpdateDetail{
     @JoinColumn(name = "assigned_to")
     private User assignedTo; // Salon User
 
+    private LocalTime expectedStartTime;
+    private LocalTime expectedEndTime;
+
     private LocalTime startTime;
     private LocalTime endTime;
 

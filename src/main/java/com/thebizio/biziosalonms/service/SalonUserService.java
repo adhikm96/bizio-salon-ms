@@ -9,8 +9,10 @@ import com.thebizio.biziosalonms.exception.NotFoundException;
 import com.thebizio.biziosalonms.exception.ValidationException;
 import com.thebizio.biziosalonms.projection.salon_user.SalonUserDetailPrj;
 import com.thebizio.biziosalonms.repo.SalonUserRepo;
+import com.thebizio.biziosalonms.service.keycloak.UtilService;
 import com.thebizio.biziosalonms.specification.SalonUserSpecification;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,16 +31,19 @@ public class SalonUserService {
 
     final WorkScheduleService workScheduleService;
 
-    public SalonUserService(ModelMapper modelMapper, BranchService branchService, SalonUserRepo salonUserRepo, WorkScheduleService workScheduleService) {
+    final UtilService utilService;
+
+    public SalonUserService(ModelMapper modelMapper, BranchService branchService, SalonUserRepo salonUserRepo, WorkScheduleService workScheduleService, UtilService utilService) {
         this.modelMapper = modelMapper;
         this.branchService = branchService;
         this.salonUserRepo = salonUserRepo;
         this.workScheduleService = workScheduleService;
+        this.utilService = utilService;
     }
 
     public List<SalonUserListDto> list(Optional<StatusEnum> status, Optional<String> email, Optional<String> empCode, Optional<String> empType, Optional<PaySchedule> paySchedule, Optional<UUID> branch, Optional<UUID> workSchedule) {
         // TO DO - check admin
-        List<User> salonUsers = salonUserRepo.findAll(SalonUserSpecification.findWithFilter(status, email, empCode, empType, paySchedule, branch, workSchedule));
+        List<User> salonUsers = salonUserRepo.findAll(SalonUserSpecification.findWithFilter(status, email, empCode, empType, paySchedule, branch, workSchedule), Sort.by(Sort.Direction.DESC,"modified"));
         return salonUsers.stream().map(this::mapToListDto).collect(Collectors.toList());
     }
 
@@ -53,6 +58,10 @@ public class SalonUserService {
     public SalonUserDetailPrj fetchUser(UUID uId) {
         // TO DO - check for admin
         return salonUserRepo.findByUserId(uId).orElseThrow(() -> new NotFoundException("salon user not found"));
+    }
+
+    public User findAuthSalonUser(){
+        return salonUserRepo.findByEmail(utilService.getAuthEmail()).orElseThrow(() -> new NotFoundException("User not found"));
     }
 
     public void updateUser(UUID uId, SalonUserUpdateDto dto) {
