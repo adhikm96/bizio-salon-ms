@@ -40,7 +40,7 @@ public class ItemController {
         return ResponseEntity.ok(itemService.createItem(dto));
     }
 
-    @PostMapping("/{itemId}")
+    @PutMapping("/{itemId}")
     public ResponseEntity<ItemDetailDto> update(@PathVariable(name = "itemId") UUID itemId,
                                                 @RequestBody @Valid CreateUpdateItemDto dto){
         return ResponseEntity.ok(itemService.updateItem(itemId,dto));
