@@ -1,6 +1,7 @@
 package com.thebizio.biziosalonms.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.thebizio.biziosalonms.enums.StatusEnum;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,14 +23,14 @@ public class Company extends LastUpdateDetail{
     private UUID id;
 
     private String name;
-    private String streetAddress1;
-    private String streetAddress2;
-    private String city;
-    private String state;
-    private String country;
-    private String zipcode;
     private String contactNo;
     private String email;
+
+    private StatusEnum status;
+
+    @ManyToOne
+    @JoinColumn(name = "address_id")
+    private Address address;
 
     @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "company")

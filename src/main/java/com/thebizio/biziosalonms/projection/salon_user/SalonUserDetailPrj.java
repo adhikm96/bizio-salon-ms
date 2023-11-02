@@ -1,6 +1,13 @@
 package com.thebizio.biziosalonms.projection.salon_user;
 
+import com.thebizio.biziosalonms.enums.EmpType;
+import com.thebizio.biziosalonms.enums.PaySchedule;
+import com.thebizio.biziosalonms.enums.StatusEnum;
+
+import java.util.UUID;
+
 public interface SalonUserDetailPrj {
+   UUID getId();
    String getFirstName();
    String getLastName();
    String getUsername();
@@ -9,10 +16,10 @@ public interface SalonUserDetailPrj {
 
    String getBizioId();
    String getEmpCode();
-   String getEmpType();
-   String getPaySchedule();
+   EmpType getEmpType();
+   PaySchedule getPaySchedule();
    String getDesignation();
-   String getStatus();
+   StatusEnum getStatus();
 
    String getStreetAddress1();
    String getStreetAddress2();

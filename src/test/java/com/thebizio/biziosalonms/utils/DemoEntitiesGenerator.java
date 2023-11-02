@@ -42,11 +42,94 @@ public class DemoEntitiesGenerator {
     public Company getCompany() {
         Company company = new Company();
         company.setEmail(fakeEmail());
-        company.setCity("Mumbai");
-        company.setCountry("INDIA");
-        company.setState("MH");
-        company.setZipcode("123456");
-        company.setName("Branch-A");
+        company.setAddress(getAddress());
+        company.setStatus(StatusEnum.ENABLED);
+        company.setName("Company-A");
+        company.setContactNo(UUID.randomUUID().toString());
+        return companyRepo.save(company);
+    }
+
+    public Company getCompany(StatusEnum statusEnum) {
+        Company company = new Company();
+        company.setEmail(fakeEmail());
+        company.setAddress(getAddress());
+        company.setStatus(statusEnum);
+        company.setName("Company-A");
+        company.setContactNo(UUID.randomUUID().toString());
+        return companyRepo.save(company);
+    }
+
+    public Company getCompany(StatusEnum statusEnum, String name) {
+        Company company = new Company();
+        company.setEmail(fakeEmail());
+        company.setAddress(getAddress());
+        company.setStatus(statusEnum);
+        company.setName(name);
+        company.setContactNo(UUID.randomUUID().toString());
+        return companyRepo.save(company);
+    }
+
+    public Company getCompany(StatusEnum statusEnum, String name, String zip) {
+        Company company = new Company();
+        company.setEmail(fakeEmail());
+        company.setAddress(getAddress());
+        company.setStatus(statusEnum);
+        company.setName(name);
+        company.setContactNo(UUID.randomUUID().toString());
+
+        company.getAddress().setZipcode(zip);
+        addressRepo.save(company.getAddress());
+
+        return companyRepo.save(company);
+    }
+
+
+    public Company getCompany(String name) {
+        Company company = new Company();
+        company.setEmail(fakeEmail());
+        company.setAddress(getAddress());
+        company.setStatus(StatusEnum.ENABLED);
+        company.setName(name);
+        company.setContactNo(UUID.randomUUID().toString());
+        return companyRepo.save(company);
+    }
+
+    public Company getCompanyWithZip( String zip) {
+        Company company = new Company();
+        company.setEmail(fakeEmail());
+        company.setAddress(getAddress());
+        company.getAddress().setZipcode(zip);
+
+        addressRepo.save(company.getAddress());
+        company.setStatus(StatusEnum.ENABLED);
+        company.setName("Company-A");
+        company.setContactNo(UUID.randomUUID().toString());
+        return companyRepo.save(company);
+    }
+
+    public Company getCompanyWithZip( String zip, String name) {
+        Company company = new Company();
+        company.setEmail(fakeEmail());
+        company.setAddress(getAddress());
+        company.getAddress().setZipcode(zip);
+
+        addressRepo.save(company.getAddress());
+        company.setStatus(StatusEnum.ENABLED);
+        company.setName(name);
+        company.setContactNo(UUID.randomUUID().toString());
+        return companyRepo.save(company);
+    }
+
+    public Company getCompanyWithZip( String zip, StatusEnum statusEnum) {
+        Company company = new Company();
+        company.setEmail(fakeEmail());
+        company.setAddress(getAddress());
+        company.getAddress().setZipcode(zip);
+
+        addressRepo.save(company.getAddress());
+        company.setStatus(statusEnum);
+        company.setName("Company-A");
+        company.setContactNo(UUID.randomUUID().toString());
         return companyRepo.save(company);
     }
 

@@ -18,39 +18,39 @@ public interface CustomerRepo extends JpaRepository<CustomerUser,UUID> {
     boolean existsByUsername(String username);
 
     @Query("SELECT cu.id as id, cu.firstName as firstName, cu.lastName as lastName, cu.username as username," +
-            "cu.email as email, cu.mobile as mobile, cu.zipcode as zipcode, cu.federation as federation," +
-            "cu.status as status FROM CustomerUser cu WHERE cu.email = :email ORDER BY cu.modified DESC")
+            "cu.email as email, cu.mobile as mobile, add.zipcode as zipcode, cu.federation as federation," +
+            "cu.status as status FROM CustomerUser cu join cu.address add WHERE cu.email = :email ORDER BY cu.modified DESC")
     List<CustomerListPrj> findByEmail(String email);
 
     @Query("SELECT cu.id as id, cu.firstName as firstName, cu.lastName as lastName, cu.username as username," +
-            "cu.email as email, cu.mobile as mobile, cu.zipcode as zipcode, cu.federation as federation," +
-            "cu.status as status FROM CustomerUser cu WHERE cu.mobile = :mobile ORDER BY cu.modified DESC")
+            "cu.email as email, cu.mobile as mobile, add.zipcode as zipcode, cu.federation as federation," +
+            "cu.status as status FROM CustomerUser cu join cu.address add WHERE cu.mobile = :mobile ORDER BY cu.modified DESC")
     List<CustomerListPrj> findByMobile(String mobile);
 
     @Query("SELECT cu.id as id, cu.firstName as firstName, cu.lastName as lastName, cu.username as username," +
-            "cu.email as email, cu.mobile as mobile, cu.zipcode as zipcode, cu.federation as federation," +
-            "cu.status as status FROM CustomerUser cu WHERE cu.status = :status AND cu.zipcode = :zipcode ORDER BY cu.modified DESC")
+            "cu.email as email, cu.mobile as mobile, add.zipcode as zipcode, cu.federation as federation," +
+            "cu.status as status FROM CustomerUser cu join cu.address add WHERE cu.status = :status AND add.zipcode = :zipcode ORDER BY cu.modified DESC")
     List<CustomerListPrj> findAllByStatusAndZipcode(StatusEnum status, String zipcode);
 
     @Query("SELECT cu.id as id, cu.firstName as firstName, cu.lastName as lastName, cu.username as username," +
-            "cu.email as email, cu.mobile as mobile, cu.zipcode as zipcode, cu.federation as federation," +
-            "cu.status as status FROM CustomerUser cu WHERE cu.status = :status ORDER BY cu.modified DESC")
+            "cu.email as email, cu.mobile as mobile, add.zipcode as zipcode, cu.federation as federation," +
+            "cu.status as status FROM CustomerUser cu join cu.address add WHERE cu.status = :status ORDER BY cu.modified DESC")
     List<CustomerListPrj> findAllByStatus(StatusEnum status);
 
     @Query("SELECT cu.id as id, cu.firstName as firstName, cu.lastName as lastName, cu.username as username," +
-            "cu.email as email, cu.mobile as mobile, cu.zipcode as zipcode, cu.federation as federation," +
-            "cu.status as status FROM CustomerUser cu WHERE cu.zipcode = :zipcode ORDER BY cu.modified DESC")
+            "cu.email as email, cu.mobile as mobile, add.zipcode as zipcode, cu.federation as federation," +
+            "cu.status as status FROM CustomerUser cu join cu.address add WHERE add.zipcode = :zipcode ORDER BY cu.modified DESC")
     List<CustomerListPrj> findAllByZipcode(String zipcode);
 
     @Query("SELECT cu.id as id, cu.firstName as firstName, cu.lastName as lastName, cu.username as username," +
-            "cu.email as email, cu.mobile as mobile, cu.zipcode as zipcode, cu.federation as federation," +
-            "cu.status as status FROM CustomerUser cu ORDER BY cu.modified DESC")
+            "cu.email as email, cu.mobile as mobile, add.zipcode as zipcode, cu.federation as federation," +
+            "cu.status as status FROM CustomerUser cu join cu.address add ORDER BY cu.modified DESC")
     List<CustomerListPrj> findAllCustomer();
 
     @Query("SELECT cu.id as id, cu.firstName as firstName, cu.lastName as lastName, cu.username as username, " +
-            "cu.email as email, cu.mobile as mobile, cu.gender as gender, cu.streetAddress1 as streetAddress1, " +
-            "cu.streetAddress2 as streetAddress2, cu.city as city, cu.state as state, cu.country as country, " +
-            "cu.zipcode as zipcode, cu.federation as federation, cu.status as status " +
-            "FROM CustomerUser cu WHERE cu.id = :userId")
+            "cu.email as email, cu.mobile as mobile, cu.gender as gender, add.streetAddress1 as streetAddress1, " +
+            "add.streetAddress2 as streetAddress2, add.city as city, add.state as state, add.country as country, " +
+            "add.zipcode as zipcode, cu.federation as federation, cu.status as status " +
+            "FROM CustomerUser cu join cu.address add WHERE cu.id = :userId")
     Optional<CustomerDetailPrj> findCustomerById(UUID userId);
 }
