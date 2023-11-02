@@ -10,7 +10,11 @@
 	</parent>
 	<groupId>com.thebizio</groupId>
 	<artifactId>bizio-salon-ms</artifactId>
+<<<<<<< HEAD
 	<version>0.231102.2-SNAPSHOT</version>
+=======
+	<version>0.231102.0-SNAPSHOT</version>
+>>>>>>> ebffcfa3b8490f567f97721dd83a6595adb58ef2
 	<name>bizio-salon-ms</name>
 	<description>Bizio Salon Management System</description>
 	<properties>
