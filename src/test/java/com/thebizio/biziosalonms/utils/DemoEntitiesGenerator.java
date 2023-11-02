@@ -46,7 +46,7 @@ public class DemoEntitiesGenerator {
         company.setCountry("INDIA");
         company.setState("MH");
         company.setZipcode("123456");
-        company.setName("Branch-A");
+        company.setName("Company-A");
         return companyRepo.save(company);
     }
 
@@ -74,7 +74,7 @@ public class DemoEntitiesGenerator {
         return addressRepo.save(address);
     }
 
-    String fakeEmail() {
+    public String fakeEmail() {
         int __ = random.nextInt(1000);
         return "email" + __ + "@example" + __ + ".com";
     }

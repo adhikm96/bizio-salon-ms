@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.UUID;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -99,6 +100,7 @@ public class SalonUserControllerTest extends BaseControllerTestCase {
         salonUser1 = demoEntitiesGenerator.getSalonUser();
 
         mvc.perform(mvcReqHelper.setUp(get("/api/v1/salon-users/" + salonUser1.getId()), demoEntitiesGenerator.getAdminUser()))
+                .andExpect(jsonPath("$.id", is(notNullValue())))
                 .andExpect(jsonPath("$.username", is(salonUser1.getUsername())))
                 .andExpect(jsonPath("$.firstName", is(salonUser1.getFirstName())))
                 .andExpect(jsonPath("$.lastName", is(salonUser1.getLastName())))
