@@ -24,12 +24,7 @@ public class Branch extends LastUpdateDetail{
     private UUID id;
 
     private String name;
-    private String streetAddress1;
-    private String streetAddress2;
-    private String city;
-    private String state;
-    private String country;
-    private String zipcode;
+
     private String contactNo;
     private String email;
     private BranchStatusEnum status;
@@ -44,4 +39,8 @@ public class Branch extends LastUpdateDetail{
     @JoinColumn(name = "work_schedule_id")
     private WorkSchedule WorkSchedule;
 
+    @ManyToOne
+    @JoinColumn
+    @JsonBackReference
+    private Address address;
 }
