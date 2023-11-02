@@ -39,7 +39,7 @@ public class CustomerController {
         return ResponseEntity.ok(customerService.createCustomer(dto));
     }
 
-    @PostMapping("/{userId}")
+    @PutMapping("/{userId}")
     public ResponseEntity<CustomerDetailDto> update(@PathVariable(name = "userId") UUID userId,
                                                     @RequestBody @Valid CreateUpdateCustomerDto dto){
         return ResponseEntity.ok(customerService.updateCustomer(userId,dto));

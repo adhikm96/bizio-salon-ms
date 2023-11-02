@@ -2,6 +2,7 @@ package com.thebizio.biziosalonms.service;
 
 import com.thebizio.biziosalonms.dto.Customer.CreateUpdateCustomerDto;
 import com.thebizio.biziosalonms.dto.Customer.CustomerDetailDto;
+import com.thebizio.biziosalonms.entity.Address;
 import com.thebizio.biziosalonms.entity.CustomerUser;
 import com.thebizio.biziosalonms.enums.StatusEnum;
 import com.thebizio.biziosalonms.exception.AlreadyExistsException;
@@ -57,6 +58,7 @@ public class CustomerService {
         if (customerRepo.existsByEmail(dto.getEmail())) throw new AlreadyExistsException("Email already exists");
         if (dto.getUsername() != null && !dto.getUsername().isEmpty() && customerRepo.existsByUsername(dto.getUsername())) throw new AlreadyExistsException("Username already exists");
         CustomerUser cu = new CustomerUser();
+        cu.setAddress(setCustomerAddressDetails(new Address(),dto));
         return modelMapper.map(setCustomerDetails(cu,dto), CustomerDetailDto.class);
     }
 
@@ -64,6 +66,8 @@ public class CustomerService {
         CustomerUser cu = fetchCustomerById(userId);
         if (!cu.getEmail().equals(dto.getEmail()) && customerRepo.existsByEmail(dto.getEmail())) throw new AlreadyExistsException("Email already exists");
         if (dto.getUsername() != null && !dto.getUsername().isEmpty() && !cu.getUsername().equals(dto.getUsername()) && customerRepo.existsByUsername(dto.getUsername())) throw new AlreadyExistsException("Username already exists");
+
+        cu.setAddress(setCustomerAddressDetails(cu.getAddress(),dto));
         return modelMapper.map(setCustomerDetails(cu,dto), CustomerDetailDto.class);
     }
 
@@ -74,14 +78,18 @@ public class CustomerService {
         cu.setEmail(dto.getEmail());
         cu.setMobile(dto.getMobile());
         cu.setGender(dto.getGender());
-        cu.setStreetAddress1(dto.getStreetAddress1());
-        cu.setStreetAddress2(dto.getStreetAddress2());
-        cu.setCity(dto.getCity());
-        cu.setState(dto.getState());
-        cu.setCountry(dto.getCountry());
-        cu.setZipcode(dto.getZipcode());
         cu.setFederation(dto.getFederation());
         if (cu.getStatus() == null) cu.setStatus(StatusEnum.ENABLED);
         return customerRepo.save(cu);
+    }
+
+    private Address setCustomerAddressDetails(Address address, CreateUpdateCustomerDto dto){
+        address.setStreetAddress1(dto.getStreetAddress1());
+        address.setStreetAddress2(dto.getStreetAddress2());
+        address.setCity(dto.getCity());
+        address.setState(dto.getState());
+        address.setCountry(dto.getCountry());
+        address.setZipcode(dto.getZipcode());
+        return address;
     }
 }

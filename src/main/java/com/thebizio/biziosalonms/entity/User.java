@@ -47,7 +47,7 @@ public class User extends LastUpdateDetail{
     private Branch branch;
 
     @ManyToOne
-    @JoinColumn
+    @JoinColumn(name = "address_id")
     @JsonBackReference
     private Address address;
 }

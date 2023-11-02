@@ -1,5 +1,6 @@
 package com.thebizio.biziosalonms.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.thebizio.biziosalonms.enums.FederationEnum;
 import com.thebizio.biziosalonms.enums.GenderEnum;
 import com.thebizio.biziosalonms.enums.StatusEnum;
@@ -28,12 +29,11 @@ public class CustomerUser extends LastUpdateDetail {
     private String email;
     private String mobile;
     private GenderEnum gender;
-    private String streetAddress1;
-    private String streetAddress2;
-    private String city;
-    private String state;
-    private String country;
-    private String zipcode;
     private FederationEnum federation;
     private StatusEnum status;
+
+    @ManyToOne
+    @JoinColumn(name = "address_id")
+    @JsonBackReference
+    private Address address;
 }
