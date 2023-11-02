@@ -30,10 +30,6 @@ public class Invoice extends LastUpdateDetail {
 
     @ManyToOne
     @JoinColumn
-    private Appointment appointment;
-
-    @ManyToOne
-    @JoinColumn
     private CustomerUser customerUser;
 
     private String customerName;

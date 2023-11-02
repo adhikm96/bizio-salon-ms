@@ -3,6 +3,7 @@ package com.thebizio.biziosalonms.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import com.thebizio.biziosalonms.deserializer.TrimmedStringDeserializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,7 +25,7 @@ public class CommonConfig {
     @Bean
     ObjectMapper objectMapper(Jackson2ObjectMapperBuilder builder) {
         builder.serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
-        builder.serializerByType(LocalTime.class, new LocalDateTimeSerializer(DateTimeFormatter.ISO_LOCAL_TIME));
+        builder.serializerByType(LocalTime.class, new LocalTimeSerializer(DateTimeFormatter.ISO_LOCAL_TIME));
         builder.serializerByType(LocalDate.class, new LocalDateSerializer(DateTimeFormatter.ISO_LOCAL_DATE));
         builder.deserializerByType(String.class, new TrimmedStringDeserializer());
         return builder.build();

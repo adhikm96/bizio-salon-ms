@@ -1,7 +1,7 @@
 package com.thebizio.biziosalonms.service;
 
-import com.thebizio.biziosalonms.dto.Customer.CreateUpdateCustomerDto;
-import com.thebizio.biziosalonms.dto.Customer.CustomerDetailDto;
+import com.thebizio.biziosalonms.dto.customer.CreateUpdateCustomerDto;
+import com.thebizio.biziosalonms.dto.customer.CustomerDetailDto;
 import com.thebizio.biziosalonms.entity.CustomerUser;
 import com.thebizio.biziosalonms.enums.StatusEnum;
 import com.thebizio.biziosalonms.exception.AlreadyExistsException;
@@ -41,7 +41,7 @@ public class CustomerService {
         return customerRepo.findCustomerById(userId).orElseThrow(() -> new NotFoundException("Customer not found"));
     }
 
-    private CustomerUser fetchCustomerById(UUID userId) {
+    public CustomerUser fetchCustomerById(UUID userId) {
         return customerRepo.findById(userId).orElseThrow(() -> new NotFoundException("Customer not found"));
     }
 

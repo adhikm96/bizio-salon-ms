@@ -23,6 +23,8 @@ public interface SalonUserRepo extends JpaRepository<User, UUID>, JpaSpecificati
     Optional<SalonUserDetailPrj> findByUserId(UUID id);
 
     boolean existsByEmpCode(String empCode);
+
+    Optional<User> findByEmail(String email);
 }
 
 
