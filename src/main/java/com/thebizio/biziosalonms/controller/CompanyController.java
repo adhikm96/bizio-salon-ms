@@ -1,6 +1,7 @@
 package com.thebizio.biziosalonms.controller;
 
 import com.thebizio.biziosalonms.dto.company.CompanyUpdateDto;
+import com.thebizio.biziosalonms.enums.StatusEnum;
 import com.thebizio.biziosalonms.projection.company.CompanyDetailPrj;
 import com.thebizio.biziosalonms.projection.company.CompanyListPrj;
 import com.thebizio.biziosalonms.service.CompanyService;
@@ -22,8 +23,12 @@ public class CompanyController {
     }
 
     @GetMapping
-    List<CompanyListPrj> listCompanies(){
-        return companyService.list();
+    List<CompanyListPrj> listCompanies(
+            @RequestParam Optional<StatusEnum> status,
+            @RequestParam Optional<String> name,
+            @RequestParam Optional<String> zipcode
+    ){
+        return companyService.list(status, name, zipcode);
     }
 
     @GetMapping("/{companyId}")
