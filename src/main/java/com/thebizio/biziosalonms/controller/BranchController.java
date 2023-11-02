@@ -3,7 +3,7 @@ package com.thebizio.biziosalonms.controller;
 import com.thebizio.biziosalonms.dto.ResponseMessageDto;
 import com.thebizio.biziosalonms.dto.branch.BranchCreateUpdateDto;
 import com.thebizio.biziosalonms.dto.branch.BranchDetailDto;
-import com.thebizio.biziosalonms.dto.branch.BranchListDto;
+import com.thebizio.biziosalonms.dto.branch.BranchListResDto;
 import com.thebizio.biziosalonms.enums.BranchStatusEnum;
 import com.thebizio.biziosalonms.projection.branch.BranchDetailPrj;
 import com.thebizio.biziosalonms.service.BranchService;
@@ -24,7 +24,7 @@ public class BranchController {
     }
 
     @GetMapping
-    List<BranchListDto> listBranches(@RequestParam Map<String, String> filters) {
+    List<BranchListResDto> listBranches(@RequestParam Map<String, String> filters) {
         return branchService.list(filters);
     }
 

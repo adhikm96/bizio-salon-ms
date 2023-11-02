@@ -8,7 +8,7 @@ import java.util.UUID;
 
 @Data
 @NoArgsConstructor
-public class BranchListDto {
+public class BranchListResDto {
     private UUID id;
     private String name;
     private String contactNo;

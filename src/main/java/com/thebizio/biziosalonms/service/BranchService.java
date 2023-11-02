@@ -3,7 +3,7 @@ package com.thebizio.biziosalonms.service;
 import com.thebizio.biziosalonms.dto.address.AddressDto;
 import com.thebizio.biziosalonms.dto.branch.BranchCreateUpdateDto;
 import com.thebizio.biziosalonms.dto.branch.BranchDetailDto;
-import com.thebizio.biziosalonms.dto.branch.BranchListDto;
+import com.thebizio.biziosalonms.dto.branch.BranchListResDto;
 import com.thebizio.biziosalonms.entity.Address;
 import com.thebizio.biziosalonms.entity.Branch;
 import com.thebizio.biziosalonms.enums.BranchStatusEnum;
@@ -19,7 +19,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -113,12 +112,12 @@ public class BranchService {
         return detailDto;
     }
 
-    public List<BranchListDto> list( Map<String, String> filters) {
+    public List<BranchListResDto> list(Map<String, String> filters) {
         return branchRepo.findAll(branchSpecification.listWithFilter(filters), Sort.by(Sort.Direction.DESC,"modified")).stream().map(this::mapToListDto).collect(Collectors.toList());
     }
 
-    BranchListDto mapToListDto(Branch branch) {
-        BranchListDto listDto = modelMapper.map(branch, BranchListDto.class);
+    BranchListResDto mapToListDto(Branch branch) {
+        BranchListResDto listDto = modelMapper.map(branch, BranchListResDto.class);
         listDto.setZipcode(branch.getAddress().getZipcode());
         return listDto;
     }
