@@ -1,7 +1,7 @@
 package com.thebizio.biziosalonms.controller;
 
-import com.thebizio.biziosalonms.dto.Customer.CreateUpdateCustomerDto;
-import com.thebizio.biziosalonms.dto.Customer.CustomerDetailDto;
+import com.thebizio.biziosalonms.dto.customer.CreateUpdateCustomerDto;
+import com.thebizio.biziosalonms.dto.customer.CustomerDetailDto;
 import com.thebizio.biziosalonms.dto.ResponseMessageDto;
 import com.thebizio.biziosalonms.enums.StatusEnum;
 import com.thebizio.biziosalonms.projection.customer.CustomerDetailPrj;

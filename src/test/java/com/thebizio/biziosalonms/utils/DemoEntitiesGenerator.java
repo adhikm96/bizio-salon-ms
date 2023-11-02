@@ -1,19 +1,20 @@
 package com.thebizio.biziosalonms.utils;
 
 import com.thebizio.biziosalonms.entity.*;
-import com.thebizio.biziosalonms.enums.BranchStatusEnum;
-import com.thebizio.biziosalonms.enums.EmpType;
-import com.thebizio.biziosalonms.enums.PaySchedule;
-import com.thebizio.biziosalonms.enums.StatusEnum;
+import com.thebizio.biziosalonms.enums.*;
 import com.thebizio.biziosalonms.repo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Random;
 import java.util.UUID;
 
 @Service
 public class DemoEntitiesGenerator {
+
+    String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     Random random = new Random();
 
     @Autowired
@@ -30,6 +31,56 @@ public class DemoEntitiesGenerator {
 
     @Autowired
     WorkScheduleRepo workScheduleRepo;
+
+    @Autowired
+    AppointmentRepo appointmentRepo;
+
+    @Autowired
+    CustomerRepo customerRepo;
+
+    @Autowired
+    ItemRepo itemRepo;
+
+    public String getUniqueCode() {
+        StringBuilder sb = new StringBuilder(5);
+        for (int i = 0; i < 5; i++) {
+            sb.append(CHARACTERS.charAt(random.nextInt(CHARACTERS.length())));
+        }
+        return sb.toString();
+    }
+
+    public Appointment getAppointment(AppointmentStatus status){
+        Appointment appointment = new Appointment();
+        appointment.setCustomerUser(getCustomer());
+        appointment.setAppointmentDate(LocalDate.now());
+        appointment.setAppointmentTime(LocalTime.now());
+        appointment.setBranch(getBranch());
+        appointment.setStatus(status);
+        appointment.setAssignedTo(getSalonUser());
+        return appointmentRepo.save(appointment);
+    }
+
+    public CustomerUser getCustomer(){
+        CustomerUser customer = new CustomerUser();
+        customer.setFirstName("Fist Name "+getUniqueCode());
+        customer.setLastName("Last Name "+getUniqueCode());
+        customer.setEmail(fakeEmail());
+        customer.setUsername("Username"+getUniqueCode());
+        return customerRepo.save(customer);
+    }
+
+    public Item getItem(){
+        Item item = new Item();
+        item.setName("Item "+getUniqueCode());
+        item.setCode("IC"+getUniqueCode());
+        item.setStatus(StatusEnum.ENABLED);
+        item.setCost(200.0);
+        item.setPrice(210.0);
+        item.setItemType(ItemType.SERVICE);
+        return itemRepo.save(item);
+    }
+
+
 
     public WorkSchedule getWorkSchedule() {
         WorkSchedule workSchedule = new WorkSchedule();

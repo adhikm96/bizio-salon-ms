@@ -20,6 +20,9 @@ public class UtilService {
 	public String getAuthUserName() {
 		return getKeycloakPrincipal().getPreferredUsername();
 	}
+	public String getAuthEmail() {
+		return getKeycloakPrincipal().getEmail();
+	}
 
 	public Principal getPrincipal() {
 		return (Principal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

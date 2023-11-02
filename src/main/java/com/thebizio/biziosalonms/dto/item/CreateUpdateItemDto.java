@@ -1,4 +1,4 @@
-package com.thebizio.biziosalonms.dto.CreateUpdateItemDto;
+package com.thebizio.biziosalonms.dto.item;
 
 import com.thebizio.biziosalonms.enums.ItemType;
 import lombok.AllArgsConstructor;
