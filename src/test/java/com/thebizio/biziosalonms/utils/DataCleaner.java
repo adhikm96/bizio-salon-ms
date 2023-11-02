@@ -1,6 +1,5 @@
 package com.thebizio.biziosalonms.utils;
 
-import com.thebizio.biziosalonms.entity.CustomerUser;
 import com.thebizio.biziosalonms.repo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +24,7 @@ public class DataCleaner {
 
     @Autowired
     ItemRepo itemRepo;
+    CompanyRepo companyRepo;
 
     public void clean() {
         appointmentRepo.deleteAll();
@@ -33,5 +33,6 @@ public class DataCleaner {
         salonUserRepo.deleteAll();
         branchRepo.deleteAll();
         workScheduleRepo.deleteAll();
+        companyRepo.deleteAll();
     }
 }

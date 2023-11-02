@@ -14,7 +14,7 @@ import java.util.UUID;
 public interface SalonUserRepo extends JpaRepository<User, UUID>, JpaSpecificationExecutor<User> {
     @Query("select user.firstName as firstName, user.lastName as lastName, user.username as username, user.email as email," +
             " user.mobile as mobile, user.bizioId as bizioId, user.empCode as empCode, user.empType as empType," +
-            " user.paySchedule as paySchedule, user.designation as designation, user.status as status, " +
+            " user.paySchedule as paySchedule, user.designation as designation, user.status as status, user.id as id, " +
             " add.streetAddress1 as streetAddress1, add.streetAddress2 as streetAddress2, add.city as city," +
             " add.state as state, add.country as country, add.zipcode as zipcode" +
             " from User user" +
