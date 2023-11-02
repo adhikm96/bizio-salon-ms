@@ -1,16 +1,10 @@
 package com.thebizio.biziosalonms.controller;
 
 import com.thebizio.biziosalonms.dto.appointment.CreateAppointmentDto;
-import com.thebizio.biziosalonms.dto.salon_user.SalonUserUpdateDto;
 import com.thebizio.biziosalonms.entity.*;
 import com.thebizio.biziosalonms.enums.AppointmentStatus;
-import com.thebizio.biziosalonms.enums.EmpType;
-import com.thebizio.biziosalonms.enums.PaySchedule;
-import com.thebizio.biziosalonms.enums.StatusEnum;
-import com.thebizio.biziosalonms.repo.ItemRepo;
 import com.thebizio.biziosalonms.service.SalonUserService;
 import com.thebizio.biziosalonms.utils.BaseControllerTestCase;
-import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,14 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Collections;
-import java.util.UUID;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class AppointmentControllerTest extends BaseControllerTestCase {
     @Autowired
@@ -68,8 +60,10 @@ public class AppointmentControllerTest extends BaseControllerTestCase {
         CreateAppointmentDto dto = new CreateAppointmentDto();
         dto.setCustomerId(customerUser.getId());
         dto.setBranchId(branch.getId());
-        dto.setDate(LocalDate.now().plusDays(1));
-        dto.setTime(LocalTime.now().minusHours(2));
+        dto.setAppointmentDate(LocalDate.now().plusDays(1));
+        dto.setAppointmentTime(LocalTime.now().minusHours(2));
+        dto.setExpectedStartTime(LocalTime.now().plusHours(1));
+        dto.setExpectedEndTime(LocalTime.now().plusHours(1));
         dto.setNotes("Notes");
         dto.setProductAndServices(Collections.singletonList(item.getId()));
 

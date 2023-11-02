@@ -23,6 +23,9 @@ public class AppointmentListDto {
     private AppointmentStatus status;
 
     private UserListDto assignedTo; // Salon User
+
+    private LocalTime expectedStartTime;
+    private LocalTime expectedEndTime;
     private LocalTime startTime;
     private LocalTime endTime;
 

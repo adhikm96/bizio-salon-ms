@@ -14,13 +14,11 @@ import com.thebizio.biziosalonms.exception.ValidationException;
 import com.thebizio.biziosalonms.repo.AppointmentRepo;
 import com.thebizio.biziosalonms.service.keycloak.UtilService;
 import com.thebizio.biziosalonms.specification.AppointmentSpecification;
-import com.thebizio.biziosalonms.specification.SalonUserSpecification;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -74,9 +72,11 @@ public class AppointmentService {
     public AppointmentDetailDto createAppointment(CreateAppointmentDto dto) {
         Appointment appointment = new Appointment();
         appointment.setCustomerUser(customerService.fetchCustomerById(dto.getCustomerId()));
-        appointment.setAppointmentDate(dto.getDate());
-        appointment.setAppointmentTime(dto.getTime());
-        appointment.setNotes(appointment.getNotes());
+        appointment.setAppointmentDate(dto.getAppointmentDate());
+        appointment.setAppointmentTime(dto.getAppointmentTime());
+        appointment.setExpectedStartTime(dto.getExpectedStartTime());
+        appointment.setExpectedEndTime(dto.getExpectedEndTime());
+        appointment.setNotes(dto.getNotes());
         appointment.setBranch(branchService.findById(dto.getBranchId()));
         appointment.setNotes(dto.getNotes());
         List<Item> items = new ArrayList<>();
@@ -86,6 +86,8 @@ public class AppointmentService {
         }
         appointment.setProductAndServices(items);
         appointment.setStatus(AppointmentStatus.BOOKED);
+
+        if (dto.getAssignedTo() != null) appointment.setAssignedTo(salonUserService.findById(dto.getAssignedTo()));
         return modelMapper.map(appointmentRepo.save(appointment),AppointmentDetailDto.class);
     }
 

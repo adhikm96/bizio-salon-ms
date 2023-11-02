@@ -1,6 +1,5 @@
 package com.thebizio.biziosalonms.dto.appointment;
 
-import com.thebizio.biziosalonms.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,11 +17,19 @@ public class CreateAppointmentDto {
     @NotNull
     private UUID customerId;
     @NotNull
-    private LocalDate date;
+    private LocalDate appointmentDate;
     @NotNull
-    private LocalTime time;
+    private LocalTime appointmentTime;
     @NotNull
     private UUID branchId;
     private List<UUID> productAndServices = new ArrayList<>();
     private String notes;
+
+    private UUID assignedTo;
+
+    @NotNull
+    private LocalTime expectedStartTime;
+    @NotNull
+    private LocalTime expectedEndTime;
+
 }
