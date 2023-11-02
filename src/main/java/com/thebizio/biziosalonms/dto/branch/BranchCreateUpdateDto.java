@@ -20,7 +20,12 @@ public class BranchCreateUpdateDto {
     @NotNull @NotBlank @Email
     private String email;
 
-    private AddressDto address;
+    private String streetAddress1;
+    private String streetAddress2;
+    private String city;
+    private String state;
+    private String country;
+    private String zipcode;
 
     @NotNull
     private UUID companyId;

@@ -53,13 +53,49 @@ public class DemoEntitiesGenerator {
     public Branch getBranch() {
         Branch branch = new Branch();
         branch.setEmail(fakeEmail());
-        branch.setCity("Mumbai");
-        branch.setCountry("INDIA");
-        branch.setState("MH");
+        branch.setAddress(getAddress());
         branch.setStatus(BranchStatusEnum.OPENED);
-        branch.setZipcode("123456");
         branch.setName("Branch-A");
         branch.setCompany(getCompany());
+        branch.setWorkSchedule(getWorkSchedule());
+        return branchRepo.save(branch);
+    }
+
+    public Branch getBranch(BranchStatusEnum statusEnum) {
+        Branch branch = new Branch();
+        branch.setEmail(fakeEmail());
+        branch.setAddress(getAddress());
+        branch.setStatus(statusEnum);
+        branch.setName("Branch-A");
+        branch.setCompany(getCompany());
+        branch.setWorkSchedule(getWorkSchedule());
+        return branchRepo.save(branch);
+    }
+
+    public Branch getBranchWithZip(String zipcode) {
+        Branch branch = new Branch();
+        branch.setEmail(fakeEmail());
+        branch.setAddress(getAddress());
+
+        branch.getAddress().setZipcode(zipcode);
+
+        addressRepo.save(branch.getAddress());
+
+        branch.setStatus(BranchStatusEnum.OPENED);
+        branch.setName("Branch-A");
+        branch.setCompany(getCompany());
+        branch.setWorkSchedule(getWorkSchedule());
+        return branchRepo.save(branch);
+    }
+
+    public Branch getBranchWithEmail(String email) {
+        Branch branch = new Branch();
+        branch.setEmail(email);
+        branch.setAddress(getAddress());
+        branch.setStatus(BranchStatusEnum.OPENED);
+        branch.setName("Branch-A");
+        branch.setCompany(getCompany());
+        branch.setWorkSchedule(getWorkSchedule());
         return branchRepo.save(branch);
     }
 
@@ -74,7 +110,7 @@ public class DemoEntitiesGenerator {
         return addressRepo.save(address);
     }
 
-    String fakeEmail() {
+    public String fakeEmail() {
         int __ = random.nextInt(1000);
         return "email" + __ + "@example" + __ + ".com";
     }

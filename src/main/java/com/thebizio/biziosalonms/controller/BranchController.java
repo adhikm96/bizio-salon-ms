@@ -3,15 +3,15 @@ package com.thebizio.biziosalonms.controller;
 import com.thebizio.biziosalonms.dto.ResponseMessageDto;
 import com.thebizio.biziosalonms.dto.branch.BranchCreateUpdateDto;
 import com.thebizio.biziosalonms.dto.branch.BranchDetailDto;
-//import com.thebizio.biziosalonms.dto.salon_user.BranchListDto;
-//import com.thebizio.biziosalonms.dto.salon_user.BranchUpdateDto;
+import com.thebizio.biziosalonms.dto.branch.BranchListDto;
 import com.thebizio.biziosalonms.enums.BranchStatusEnum;
-//import com.thebizio.biziosalonms.projection.salon_user.BranchDetailPrj;
+import com.thebizio.biziosalonms.projection.branch.BranchDetailPrj;
 import com.thebizio.biziosalonms.service.BranchService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -23,18 +23,10 @@ public class BranchController {
         this.branchService = branchService;
     }
 
-//    @GetMapping
-//    List<BranchListDto> listBranches(
-//            @RequestParam Optional<StatusEnum> status,
-//            @RequestParam Optional<String> email,
-//            @RequestParam Optional<String> empCode,
-//            @RequestParam Optional<String> empType,
-//            @RequestParam Optional<PaySchedule> paySchedule,
-//            @RequestParam Optional<UUID> branch,
-//            @RequestParam Optional<UUID> workSchedule
-//    ) {
-//        return branchService.list(status, email, empCode, empType, paySchedule, branch, workSchedule);
-//    }
+    @GetMapping
+    List<BranchListDto> listBranches(@RequestParam Map<String, String> filters) {
+        return branchService.list(filters);
+    }
 
     @PostMapping
     BranchDetailDto createBranch(@RequestBody @Valid BranchCreateUpdateDto createDto) {
@@ -42,10 +34,10 @@ public class BranchController {
     }
 
 
-//    @GetMapping("/{branchId}")
-//    BranchDetailPrj fetchBranch(@PathVariable UUID branchId) {
-//        return branchService.fetchBranch(branchId);
-//    }
+    @GetMapping("/{branchId}")
+    BranchDetailPrj fetchBranch(@PathVariable UUID branchId) {
+        return branchService.fetchBranch(branchId);
+    }
 
     @PutMapping("/{branchId}")
     void updateBranch(@PathVariable UUID branchId, @RequestBody @Valid BranchCreateUpdateDto dto) {
@@ -53,7 +45,7 @@ public class BranchController {
     }
 
     @PostMapping("/{branchId}/{status}")
-    public ResponseEntity<ResponseMessageDto> updateStatus(@PathVariable(name = "branchId") UUID branchId, @PathVariable BranchStatusEnum status){
-        return ResponseEntity.ok(new ResponseMessageDto(branchService.updateStatus(branchId, status)));
+    public ResponseMessageDto updateStatus(@PathVariable(name = "branchId") UUID branchId, @PathVariable BranchStatusEnum status){
+        return new ResponseMessageDto(branchService.updateStatus(branchId, status));
     }
 }
