@@ -14,6 +14,7 @@ import com.thebizio.biziosalonms.repo.AddressRepo;
 import com.thebizio.biziosalonms.repo.BranchRepo;
 import com.thebizio.biziosalonms.specification.BranchSpecification;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -113,7 +114,7 @@ public class BranchService {
     }
 
     public List<BranchListDto> list( Map<String, String> filters) {
-        return branchRepo.findAll(branchSpecification.listWithFilter(filters)).stream().map(this::mapToListDto).collect(Collectors.toList());
+        return branchRepo.findAll(branchSpecification.listWithFilter(filters), Sort.by(Sort.Direction.DESC,"modified")).stream().map(this::mapToListDto).collect(Collectors.toList());
     }
 
     BranchListDto mapToListDto(Branch branch) {
