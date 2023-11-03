@@ -1,4 +1,4 @@
-package com.thebizio.biziosalonms.dto.tax_schedule;
+package com.thebizio.biziosalonms.dto.tax_schedule_item;
 
 import com.thebizio.biziosalonms.enums.TaxChargeTypeEnum;
 import lombok.AllArgsConstructor;

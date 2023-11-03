@@ -2,6 +2,7 @@ package com.thebizio.biziosalonms.controller;
 
 import com.thebizio.biziosalonms.dto.ResponseMessageDto;
 import com.thebizio.biziosalonms.dto.tax_schedule.CreateUpdateTaxScheduleDto;
+import com.thebizio.biziosalonms.dto.tax_schedule.TaxScheduleDetailDto;
 import com.thebizio.biziosalonms.dto.tax_schedule.TaxScheduleListDto;
 import com.thebizio.biziosalonms.enums.StatusEnum;
 import com.thebizio.biziosalonms.service.TaxScheduleService;
@@ -28,17 +29,17 @@ public class TaxScheduleController {
     }
 
     @GetMapping("/{taxScheduleId}")
-    ResponseEntity<TaxScheduleListDto> getById(@PathVariable UUID taxScheduleId) {
+    ResponseEntity<TaxScheduleDetailDto> getById(@PathVariable UUID taxScheduleId) {
         return ResponseEntity.ok(taxScheduleService.getTaxScheduleById(taxScheduleId));
     }
 
     @PostMapping
-    public ResponseEntity<TaxScheduleListDto> create(@RequestBody @Valid CreateUpdateTaxScheduleDto dto){
+    public ResponseEntity<TaxScheduleDetailDto> create(@RequestBody @Valid CreateUpdateTaxScheduleDto dto){
         return ResponseEntity.ok(taxScheduleService.createTaxSchedule(dto));
     }
 
     @PutMapping("/{taxScheduleId}")
-    public ResponseEntity<TaxScheduleListDto> update(@PathVariable UUID taxScheduleId, @RequestBody @Valid CreateUpdateTaxScheduleDto dto){
+    public ResponseEntity<TaxScheduleDetailDto> update(@PathVariable UUID taxScheduleId, @RequestBody @Valid CreateUpdateTaxScheduleDto dto){
         return ResponseEntity.ok(taxScheduleService.updateTaxSchedule(taxScheduleId,dto));
     }
 

@@ -1,7 +1,8 @@
 package com.thebizio.biziosalonms.service;
 
 import com.thebizio.biziosalonms.dto.tax_schedule.CreateUpdateTaxScheduleDto;
-import com.thebizio.biziosalonms.dto.tax_schedule.CreateUpdateTaxScheduleItemDto;
+import com.thebizio.biziosalonms.dto.tax_schedule.TaxScheduleDetailDto;
+import com.thebizio.biziosalonms.dto.tax_schedule_item.CreateUpdateTaxScheduleItemDto;
 import com.thebizio.biziosalonms.dto.tax_schedule.TaxScheduleListDto;
 import com.thebizio.biziosalonms.entity.Branch;
 import com.thebizio.biziosalonms.entity.TaxSchedule;
@@ -47,18 +48,18 @@ public class TaxScheduleService {
     public TaxSchedule fetchById(UUID taxScheduleId){
         return taxScheduleRepo.findById(taxScheduleId).orElseThrow(() -> new NotFoundException("Tax schedule not found"));
     }
-    public TaxScheduleListDto getTaxScheduleById(UUID taxScheduleId) {
-        return modelMapper.map(fetchById(taxScheduleId), TaxScheduleListDto.class);
+    public TaxScheduleDetailDto getTaxScheduleById(UUID taxScheduleId) {
+        return modelMapper.map(fetchById(taxScheduleId), TaxScheduleDetailDto.class);
     }
 
 
-    public TaxScheduleListDto createTaxSchedule(CreateUpdateTaxScheduleDto dto) {
-        return modelMapper.map(setTaxScheduleDetail(new TaxSchedule(),dto), TaxScheduleListDto.class);
+    public TaxScheduleDetailDto createTaxSchedule(CreateUpdateTaxScheduleDto dto) {
+        return modelMapper.map(setTaxScheduleDetail(new TaxSchedule(),dto), TaxScheduleDetailDto.class);
     }
 
-    public TaxScheduleListDto updateTaxSchedule(UUID taxScheduleId, CreateUpdateTaxScheduleDto dto) {
+    public TaxScheduleDetailDto updateTaxSchedule(UUID taxScheduleId, CreateUpdateTaxScheduleDto dto) {
         TaxSchedule ts = fetchById(taxScheduleId);
-        return modelMapper.map(setTaxScheduleDetail(ts,dto), TaxScheduleListDto.class);
+        return modelMapper.map(setTaxScheduleDetail(ts,dto), TaxScheduleDetailDto.class);
     }
 
     private TaxSchedule setTaxScheduleDetail(TaxSchedule ts,CreateUpdateTaxScheduleDto dto){

@@ -1,26 +1,20 @@
 package com.thebizio.biziosalonms.controller;
 
-import com.thebizio.biziosalonms.dto.appointment.CreateAppointmentDto;
 import com.thebizio.biziosalonms.dto.tax_schedule.CreateUpdateTaxScheduleDto;
-import com.thebizio.biziosalonms.dto.tax_schedule.CreateUpdateTaxScheduleItemDto;
+import com.thebizio.biziosalonms.dto.tax_schedule_item.CreateUpdateTaxScheduleItemDto;
 import com.thebizio.biziosalonms.entity.*;
-import com.thebizio.biziosalonms.enums.AppointmentStatus;
 import com.thebizio.biziosalonms.enums.StatusEnum;
 import com.thebizio.biziosalonms.enums.TaxChargeTypeEnum;
-import com.thebizio.biziosalonms.service.SalonUserService;
 import com.thebizio.biziosalonms.utils.BaseControllerTestCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.Collections;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 public class TaxScheduleControllerTest extends BaseControllerTestCase {
@@ -48,7 +42,8 @@ public class TaxScheduleControllerTest extends BaseControllerTestCase {
         mvc.perform(mvcReqHelper.setUp(post("/api/v1/tax-schedules"),dto, demoEntitiesGenerator.getAdminUser()))
                 .andExpect(jsonPath("$.status", is(StatusEnum.ENABLED.toString())))
                 .andExpect(jsonPath("$.name", is(dto.getName())))
-                .andExpect(jsonPath("$.branch.id", is(branch.getId().toString())));
+                .andExpect(jsonPath("$.branch.id", is(branch.getId().toString())))
+                .andExpect(jsonPath("$.taxScheduleItems.length()", is(1)));
     }
 
 
