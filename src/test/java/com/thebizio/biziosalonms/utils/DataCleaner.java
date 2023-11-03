@@ -24,11 +24,21 @@ public class DataCleaner {
 
     @Autowired
     ItemRepo itemRepo;
+
+    @Autowired
     CompanyRepo companyRepo;
 
+    @Autowired
+    TaxScheduleRepo taxScheduleRepo;
+
+    @Autowired
+    TaxHeadRepo taxHeadRepo;
+
     public void clean() {
+        taxScheduleRepo.deleteAll();
         appointmentRepo.deleteAll();
         itemRepo.deleteAll();
+        taxHeadRepo.deleteAll();
         customerRepo.deleteAll();
         salonUserRepo.deleteAll();
         branchRepo.deleteAll();
