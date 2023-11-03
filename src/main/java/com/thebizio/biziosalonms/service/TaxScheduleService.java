@@ -2,9 +2,8 @@ package com.thebizio.biziosalonms.service;
 
 import com.thebizio.biziosalonms.dto.tax_schedule.CreateUpdateTaxScheduleDto;
 import com.thebizio.biziosalonms.dto.tax_schedule.CreateUpdateTaxScheduleItemDto;
-import com.thebizio.biziosalonms.dto.tax_schedule.TaxScheduleLitDto;
+import com.thebizio.biziosalonms.dto.tax_schedule.TaxScheduleListDto;
 import com.thebizio.biziosalonms.entity.Branch;
-import com.thebizio.biziosalonms.entity.TaxHead;
 import com.thebizio.biziosalonms.entity.TaxSchedule;
 import com.thebizio.biziosalonms.entity.TaxScheduleItem;
 import com.thebizio.biziosalonms.enums.StatusEnum;
@@ -38,28 +37,28 @@ public class TaxScheduleService {
     @Autowired
     private TaxHeadService taxHeadService;
 
-    public List<TaxScheduleLitDto> getAllTaxSchedule(Optional<String> name, Optional<UUID> branch, Optional<StatusEnum> status) {
+    public List<TaxScheduleListDto> getAllTaxSchedule(Optional<String> name, Optional<UUID> branch, Optional<StatusEnum> status) {
         List<TaxSchedule> taxSchedules = taxScheduleRepo.findAll(TaxScheduleSpecification.findWithFilter(name, branch, status),
                 Sort.by(Sort.Direction.DESC,"modified"));
 
-        return modelMapper.map(taxSchedules, new TypeToken<List<TaxScheduleLitDto>>(){}.getType());
+        return modelMapper.map(taxSchedules, new TypeToken<List<TaxScheduleListDto>>(){}.getType());
     }
 
     public TaxSchedule fetchById(UUID taxScheduleId){
         return taxScheduleRepo.findById(taxScheduleId).orElseThrow(() -> new NotFoundException("Tax schedule not found"));
     }
-    public TaxScheduleLitDto getTaxScheduleById(UUID taxScheduleId) {
-        return modelMapper.map(fetchById(taxScheduleId),TaxScheduleLitDto.class);
+    public TaxScheduleListDto getTaxScheduleById(UUID taxScheduleId) {
+        return modelMapper.map(fetchById(taxScheduleId), TaxScheduleListDto.class);
     }
 
 
-    public TaxScheduleLitDto createTaxSchedule(CreateUpdateTaxScheduleDto dto) {
-        return modelMapper.map(setTaxScheduleDetail(new TaxSchedule(),dto),TaxScheduleLitDto.class);
+    public TaxScheduleListDto createTaxSchedule(CreateUpdateTaxScheduleDto dto) {
+        return modelMapper.map(setTaxScheduleDetail(new TaxSchedule(),dto), TaxScheduleListDto.class);
     }
 
-    public TaxScheduleLitDto updateTaxSchedule(UUID taxScheduleId,CreateUpdateTaxScheduleDto dto) {
+    public TaxScheduleListDto updateTaxSchedule(UUID taxScheduleId, CreateUpdateTaxScheduleDto dto) {
         TaxSchedule ts = fetchById(taxScheduleId);
-        return modelMapper.map(setTaxScheduleDetail(ts,dto),TaxScheduleLitDto.class);
+        return modelMapper.map(setTaxScheduleDetail(ts,dto), TaxScheduleListDto.class);
     }
 
     private TaxSchedule setTaxScheduleDetail(TaxSchedule ts,CreateUpdateTaxScheduleDto dto){
