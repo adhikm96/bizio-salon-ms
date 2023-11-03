@@ -41,6 +41,9 @@ public class DemoEntitiesGenerator {
     @Autowired
     ItemRepo itemRepo;
 
+    @Autowired
+    TaxHeadRepo taxHeadRepo;
+
     public String getUniqueCode() {
         StringBuilder sb = new StringBuilder(5);
         for (int i = 0; i < 5; i++) {
@@ -78,6 +81,15 @@ public class DemoEntitiesGenerator {
         item.setPrice(210.0);
         item.setItemType(ItemType.SERVICE);
         return itemRepo.save(item);
+    }
+
+    public TaxHead getTaxHead(){
+        TaxHead taxHead = new TaxHead();
+        taxHead.setName("Tax "+getUniqueCode());
+        taxHead.setCode("TXCODE"+getUniqueCode());
+        taxHead.setStatus(StatusEnum.ENABLED);
+        taxHead.setChargeOn(ChargeOnEnum.GROSS_TOTAL);
+        return taxHeadRepo.save(taxHead);
     }
 
 

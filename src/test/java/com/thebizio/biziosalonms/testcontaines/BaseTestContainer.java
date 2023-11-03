@@ -67,6 +67,10 @@ public class BaseTestContainer {
     @DynamicPropertySource
     public static void configureProperties(DynamicPropertyRegistry registry) {
 
+        registry.add("spring.datasource.url", postgres::getJdbcUrl);
+        registry.add("spring.datasource.username", postgres::getUsername);
+        registry.add("spring.datasource.password", postgres::getPassword);
+
         registry.add("keycloak.realm", () -> KEYCLOAK_REALM);
         registry.add("keycloak.auth-server-url", keycloak::getAuthServerUrl);
         registry.add("keycloak.resource",() -> KEYCLOAK_RESOURCE);
