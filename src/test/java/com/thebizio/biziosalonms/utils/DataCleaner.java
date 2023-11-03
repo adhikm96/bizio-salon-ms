@@ -24,6 +24,8 @@ public class DataCleaner {
 
     @Autowired
     ItemRepo itemRepo;
+
+    @Autowired
     CompanyRepo companyRepo;
 
     public void clean() {
