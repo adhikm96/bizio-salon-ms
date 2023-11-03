@@ -22,6 +22,9 @@ public class DemoEntitiesGenerator {
     AddressRepo addressRepo;
 
     @Autowired
+    PaymentRepo paymentRepo;
+
+    @Autowired
     SalonUserRepo salonUserRepo;
 
     @Autowired
@@ -423,5 +426,66 @@ public class DemoEntitiesGenerator {
         item.setBreakEndTime(LocalTime.now().plusHours(2).truncatedTo(ChronoUnit.SECONDS));
 
         return item;
+    }
+
+    public Payment getPayment() {
+        Payment payment = new Payment();
+        payment.setPaymentDate(LocalDate.now());
+        payment.setPaymentRef("PAYMENT_" + UUID.randomUUID().toString().substring(0,4));
+        payment.setPaymentType(PaymentTypeEnum.CASH);
+        payment.setInvoice(getInvoice());
+
+        return paymentRepo.save(payment);
+    }
+
+    public Payment getPayment(Branch branch) {
+        Payment payment = new Payment();
+        payment.setPaymentDate(LocalDate.now());
+        payment.setPaymentRef("PAYMENT_" + UUID.randomUUID().toString().substring(0,4));
+        payment.setPaymentType(PaymentTypeEnum.CASH);
+        payment.setInvoice(getInvoice(branch));
+
+        return paymentRepo.save(payment);
+    }
+
+    public Payment getPayment(Invoice invoice) {
+        Payment payment = new Payment();
+        payment.setPaymentDate(LocalDate.now());
+        payment.setPaymentRef("PAYMENT_" + UUID.randomUUID().toString().substring(0,4));
+        payment.setPaymentType(PaymentTypeEnum.CASH);
+        payment.setInvoice(invoice);
+
+        return paymentRepo.save(payment);
+    }
+
+    public Payment getPayment(LocalDate postingDate) {
+        Payment payment = new Payment();
+        payment.setPaymentDate(postingDate);
+        payment.setPaymentRef("PAYMENT_" + UUID.randomUUID().toString().substring(0,4));
+        payment.setPaymentType(PaymentTypeEnum.CASH);
+        payment.setInvoice(getInvoice());
+
+        return paymentRepo.save(payment);
+    }
+
+    @Autowired
+    InvoiceRepo invoiceRepo;
+
+    public Invoice getInvoice() {
+        Invoice invoice = new Invoice();
+        invoice.setBranch(getBranch());
+
+        // set other fields
+
+        return invoiceRepo.save(invoice);
+    }
+
+    public Invoice getInvoice(Branch branch) {
+        Invoice invoice = new Invoice();
+        invoice.setBranch(branch);
+
+        // set other fields
+
+        return invoiceRepo.save(invoice);
     }
 }

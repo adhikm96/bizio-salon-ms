@@ -34,7 +34,16 @@ public class DataCleaner {
     @Autowired
     TaxHeadRepo taxHeadRepo;
 
+    @Autowired
+    PaymentRepo paymentRepo;
+
+    @Autowired
+    InvoiceRepo invoiceRepo;
+
     public void clean() {
+        paymentRepo.deleteAll();
+        invoiceRepo.deleteAll();
+
         taxScheduleRepo.deleteAll();
         appointmentRepo.deleteAll();
         itemRepo.deleteAll();
