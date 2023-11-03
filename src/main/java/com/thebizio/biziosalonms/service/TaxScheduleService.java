@@ -78,6 +78,8 @@ public class TaxScheduleService {
             tsi.setOnValueTo(tsiDto.getOnValueTo());
             taxScheduleItemList.add(tsi);
         }
+
+        ts.setTaxScheduleItems(taxScheduleItemList);
         return taxScheduleRepo.save(ts);
     }
 
