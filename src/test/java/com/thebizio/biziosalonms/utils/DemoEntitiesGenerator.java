@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Random;
 import java.util.UUID;
 
@@ -98,9 +99,27 @@ public class DemoEntitiesGenerator {
         WorkSchedule workSchedule = new WorkSchedule();
         workSchedule.setName("9 to 5");
         workSchedule.setStatus(StatusEnum.ENABLED);
+
+        workSchedule.appendItem(getWorkScheduleItem());
         return workScheduleRepo.save(workSchedule) ;
     }
 
+    public WorkSchedule getWorkSchedule(StatusEnum statusEnum) {
+        WorkSchedule workSchedule = new WorkSchedule();
+        workSchedule.setName("9 to 5");
+        workSchedule.setStatus(statusEnum);
+        return workScheduleRepo.save(workSchedule) ;
+    }
+
+    public WorkSchedule getWorkSchedule(Branch branch) {
+        WorkSchedule workSchedule = new WorkSchedule();
+        workSchedule.setName("9 to 5");
+        workSchedule.setStatus(StatusEnum.ENABLED);
+        workScheduleRepo.save(workSchedule);
+        branch.setWorkSchedule(workSchedule);
+        branchRepo.save(branch);
+        return workSchedule;
+    }
 
     public Company getCompany() {
         Company company = new Company();
@@ -391,5 +410,18 @@ public class DemoEntitiesGenerator {
         user.setStatus(statusEnum);
         user.setPaySchedule(paySchedule);
         return salonUserRepo.save(user);
+    }
+
+    public WorkScheduleItem getWorkScheduleItem() {
+        WorkScheduleItem item = new WorkScheduleItem();
+
+        item.setDay(WorkScheduleDayEnum.MONDAY);
+        item.setEndTime(LocalTime.now().plusHours(3).truncatedTo(ChronoUnit.SECONDS));
+        item.setStartTime(LocalTime.now().minusHours(3).truncatedTo(ChronoUnit.SECONDS));
+
+        item.setBreakStartTime(LocalTime.now().plusHours(1).truncatedTo(ChronoUnit.SECONDS));
+        item.setBreakEndTime(LocalTime.now().plusHours(2).truncatedTo(ChronoUnit.SECONDS));
+
+        return item;
     }
 }
