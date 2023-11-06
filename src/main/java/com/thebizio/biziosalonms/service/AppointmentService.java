@@ -164,7 +164,7 @@ public class AppointmentService {
     @Scheduled(cron = "0 */5 * ? * *") // run every 5 min
     public void overdueAppointment() {
 
-        logger.info("---------- schedular for appointment overdue started for " + LocalTime.now() + "-------------");
+        logger.info("---------- schedular for appointment overdue started at " + LocalTime.now() + "-------------");
 
         List<Appointment> appointments = appointmentRepo.findAllByStatusAndAppointmentDateBeforeAndAppointmentTimeBefore(
                 AppointmentStatus.SCHEDULED, LocalDate.now(), LocalTime.now());
@@ -176,6 +176,6 @@ public class AppointmentService {
             }
         }
 
-        logger.info("---------- schedular for appointment overdue started for " + LocalTime.now() + "-------------");
+        logger.info("---------- schedular for appointment overdue ended at " + LocalTime.now() + "-------------");
     }
 }
