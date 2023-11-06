@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Random;
@@ -44,6 +45,10 @@ public class DemoEntitiesGenerator {
 
     @Autowired
     TaxHeadRepo taxHeadRepo;
+
+    @Autowired
+    private CouponRepo couponRepo;
+
 
     public String getUniqueCode() {
         StringBuilder sb = new StringBuilder(5);
@@ -424,4 +429,36 @@ public class DemoEntitiesGenerator {
 
         return item;
     }
+
+    public Coupon getCoupon(){
+
+        Coupon c1 = new Coupon();
+        c1.setName("SALON");
+        c1.setValue(10);
+        c1.setMaxRedemptions(50);
+        c1.setType(CouponTypeEnum.AMOUNT);
+        c1.setStatus(StatusEnum.ENABLED);
+        c1.setStartDate(LocalDateTime.now());
+        c1.setEndDate(LocalDateTime.now());
+
+        couponRepo.save(c1);
+        return c1;
+    }
+
+    public Coupon getCoupon(StatusEnum status){
+
+        Coupon c1 = new Coupon();
+        c1.setName("SALON");
+        c1.setValue(10);
+        c1.setMaxRedemptions(50);
+        c1.setType(CouponTypeEnum.AMOUNT);
+        c1.setStatus(status);
+        c1.setStartDate(LocalDateTime.now());
+        c1.setEndDate(LocalDateTime.now());
+
+        couponRepo.save(c1);
+        return c1;
+    }
+
+
 }
