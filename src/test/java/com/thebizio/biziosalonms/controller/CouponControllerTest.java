@@ -48,7 +48,6 @@ public class CouponControllerTest extends BaseControllerTestCase {
 
         c4 = demoEntitiesGenerator.getCoupon();
         mvc.perform(mvcReqHelper.setUp(get("/api/v1/coupons"), demoEntitiesGenerator.getAdminUser()))
-//                .andExpect(jsonPath("$[0].id", is(c4.getId().toString())))
                 .andExpect(jsonPath("$[0].name", is(c4.getName())))
                 .andExpect(jsonPath("$[0].value", is(Double.valueOf(c4.getValue()))))
                 .andExpect(jsonPath("$[0].type", is(c4.getType().toString())))
@@ -56,7 +55,6 @@ public class CouponControllerTest extends BaseControllerTestCase {
                 .andExpect(jsonPath("$[0].maxRedemptions", is(c4.getMaxRedemptions())));
 
         mvc.perform(mvcReqHelper.setUp(get("/api/v1/coupons?status=" + c2.getStatus()), demoEntitiesGenerator.getAdminUser()))
-//                .andExpect(jsonPath("$[0].id", is(c2.getId().toString())))
                 .andExpect(jsonPath("$[0].name", is(c2.getName())))
                 .andExpect(jsonPath("$[0].value", is(Double.valueOf(c2.getValue()))))
                 .andExpect(jsonPath("$[0].type", is(c2.getType().toString())))
@@ -95,9 +93,6 @@ public class CouponControllerTest extends BaseControllerTestCase {
                 .andExpect(jsonPath("$.type", is(dto.getCouponType().toString())))
                 .andExpect(jsonPath("$.maxRedemptions", is(dto.getMaxRedemptions())))
                 .andExpect(status().isOk());
-
-
-//        assertEquals(c1.getName(), dto.getName());
 
         assertTrue(couponRepo.existsByName(dto.getName()));
 
