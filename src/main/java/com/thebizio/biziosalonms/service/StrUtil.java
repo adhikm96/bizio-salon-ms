@@ -4,6 +4,7 @@ import com.thebizio.biziosalonms.enums.BranchStatusEnum;
 import com.thebizio.biziosalonms.enums.PaymentTypeEnum;
 import com.thebizio.biziosalonms.enums.StatusEnum;
 import com.thebizio.biziosalonms.exception.ValidationException;
+import org.keycloak.common.util.SecretGenerator;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -51,5 +52,11 @@ public class StrUtil {
         }catch (DateTimeParseException exception) {
             throw new ValidationException("incorrect date");
         }
+    }
+
+    private static final String ALPHANUMERIC_CHARS = "@#$ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    public String generateRandomPromocodeString(){
+        return SecretGenerator.getInstance().randomString(6).toUpperCase();
     }
 }
