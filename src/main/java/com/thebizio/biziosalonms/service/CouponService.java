@@ -10,6 +10,7 @@ import com.thebizio.biziosalonms.exception.ValidationException;
 import com.thebizio.biziosalonms.projection.coupon.CouponDetailPrj;
 import com.thebizio.biziosalonms.projection.coupon.CouponListPrj;
 import com.thebizio.biziosalonms.repo.CouponRepo;
+import com.thebizio.biziosalonms.repo.PromotionRepo;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,9 @@ public class CouponService {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private PromotionRepo promotionRepo;
 
     public CouponDetailsDto saveCoupon(CouponCreateDto createDto) {
 
@@ -102,10 +106,15 @@ public class CouponService {
         couponRepo.save(coupon);
     }
 
+    private boolean checkCouponUsed(UUID couponId) {
+        return promotionRepo.existsByCouponIdAndStatus(couponId, StatusEnum.ENABLED);
+    }
+
     public String toggleCoupon(UUID couponId, StatusEnum status) {
 
         Coupon coupon = getCouponById(couponId);
         if (coupon.getStatus().equals(status)) throw new ValidationException("Coupon is already " + status.toString().toLowerCase());
+        if (checkCouponUsed(couponId)) throw new ValidationException("promotion is enabled so coupon can't disabled");
         coupon.setStatus(status);
         couponRepo.save(coupon);
         return ConstantMsg.OK;

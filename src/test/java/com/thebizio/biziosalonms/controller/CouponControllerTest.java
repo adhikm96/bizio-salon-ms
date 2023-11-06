@@ -171,5 +171,4 @@ public class CouponControllerTest extends BaseControllerTestCase {
                 .andExpect(jsonPath("$.message", is("Coupon is already " + StatusEnum.ENABLED.toString().toLowerCase())));
     }
 
-
 }
