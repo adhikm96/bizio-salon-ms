@@ -50,6 +50,7 @@ public class Invoice extends LastUpdateDetail {
 
     private Double taxes;
 
+    @Column(columnDefinition="TEXT")
     private String taxStr;
 
     private Double netTotal;

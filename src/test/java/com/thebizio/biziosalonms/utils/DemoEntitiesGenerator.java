@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Random;
 import java.util.UUID;
@@ -44,6 +45,12 @@ public class DemoEntitiesGenerator {
     @Autowired
     TaxHeadRepo taxHeadRepo;
 
+    @Autowired
+    CouponRepo couponRepo;
+
+    @Autowired
+    PromotionRepo promotionRepo;
+
     public String getUniqueCode() {
         StringBuilder sb = new StringBuilder(5);
         for (int i = 0; i < 5; i++) {
@@ -58,6 +65,17 @@ public class DemoEntitiesGenerator {
         appointment.setAppointmentDate(LocalDate.now());
         appointment.setAppointmentTime(LocalTime.now());
         appointment.setBranch(getBranch());
+        appointment.setStatus(status);
+        appointment.setAssignedTo(getSalonUser());
+        return appointmentRepo.save(appointment);
+    }
+
+    public Appointment getAppointment(AppointmentStatus status,Branch branch){
+        Appointment appointment = new Appointment();
+        appointment.setCustomerUser(getCustomer());
+        appointment.setAppointmentDate(LocalDate.now());
+        appointment.setAppointmentTime(LocalTime.now());
+        appointment.setBranch(branch);
         appointment.setStatus(status);
         appointment.setAssignedTo(getSalonUser());
         return appointmentRepo.save(appointment);
@@ -92,7 +110,26 @@ public class DemoEntitiesGenerator {
         return taxHeadRepo.save(taxHead);
     }
 
+    public TaxHead getTaxHead(ChargeOnEnum chargeOn){
+        TaxHead taxHead = new TaxHead();
+        taxHead.setName("Tax "+getUniqueCode());
+        taxHead.setCode("TXCODE"+getUniqueCode());
+        taxHead.setStatus(StatusEnum.ENABLED);
+        taxHead.setChargeOn(chargeOn);
+        return taxHeadRepo.save(taxHead);
+    }
 
+    public TaxScheduleItem taxScheduleItem(Branch branch,ChargeOnEnum chargeOnEnum,float value,TaxChargeTypeEnum taxChargeType,
+                                           float onValueFrom, float onValueTo){
+        TaxScheduleItem taxScheduleItem = new TaxScheduleItem();
+        taxScheduleItem.setBranch(branch);
+        taxScheduleItem.setTaxHead(getTaxHead(chargeOnEnum));
+        taxScheduleItem.setTaxChargeType(taxChargeType);
+        taxScheduleItem.setOnValueTo(onValueTo);
+        taxScheduleItem.setOnValueFrom(onValueFrom);
+        taxScheduleItem.setValue(value);
+        return taxScheduleItem;
+    }
 
     public WorkSchedule getWorkSchedule() {
         WorkSchedule workSchedule = new WorkSchedule();
@@ -391,5 +428,28 @@ public class DemoEntitiesGenerator {
         user.setStatus(statusEnum);
         user.setPaySchedule(paySchedule);
         return salonUserRepo.save(user);
+    }
+
+    public Coupon getCoupon(){
+        Coupon coupon = new Coupon();
+        coupon.setName("Coupon1");
+        coupon.setStatus(StatusEnum.ENABLED);
+        coupon.setMaxRedemptions(15);
+        coupon.setEndDate(LocalDateTime.now().plusDays(5));
+        coupon.setType(CouponTypeEnum.PERCENT);
+        coupon.setStartDate(LocalDateTime.now());
+        coupon.setValue(15);
+        return couponRepo.save(coupon);
+    }
+
+    public Promotion getPromotion(Coupon coupon){
+        Promotion promotion = new Promotion();
+        promotion.setStatus(StatusEnum.ENABLED);
+        promotion.setCode("PROMO15");
+        promotion.setEndDate(LocalDateTime.now().plusDays(1));
+        promotion.setMaxRedemptions(10);
+        promotion.setTimesRedeemed(0);
+        promotion.setCoupon(coupon);
+        return promotionRepo.save(promotion);
     }
 }

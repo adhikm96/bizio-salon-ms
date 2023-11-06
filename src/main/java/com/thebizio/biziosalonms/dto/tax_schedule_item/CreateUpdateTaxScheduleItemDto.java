@@ -21,7 +21,7 @@ public class CreateUpdateTaxScheduleItemDto {
     @NotNull@Positive
     private float value;
 
-    private float onValueFrom;
-    private float onValueTo;
+    private float onValueFrom = 0;
+    private float onValueTo = 0;
 
 }

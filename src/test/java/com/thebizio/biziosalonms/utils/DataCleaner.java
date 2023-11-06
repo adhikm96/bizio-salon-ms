@@ -34,15 +34,31 @@ public class DataCleaner {
     @Autowired
     TaxHeadRepo taxHeadRepo;
 
+    @Autowired
+    PromotionRepo promotionRepo;
+
+    @Autowired
+    CouponRepo couponRepo;
+
+    @Autowired
+    InvoiceRepo invoiceRepo;
+
+    @Autowired
+    PaymentRepo paymentRepo;
+
     public void clean() {
-        taxScheduleRepo.deleteAll();
         appointmentRepo.deleteAll();
+        paymentRepo.deleteAll();
+        invoiceRepo.deleteAll();
+        taxScheduleRepo.deleteAll();
         itemRepo.deleteAll();
         taxHeadRepo.deleteAll();
         customerRepo.deleteAll();
         salonUserRepo.deleteAll();
         branchRepo.deleteAll();
         workScheduleRepo.deleteAll();
+        companyRepo.deleteAll();
+        promotionRepo.deleteAll();
         companyRepo.deleteAll();
     }
 }

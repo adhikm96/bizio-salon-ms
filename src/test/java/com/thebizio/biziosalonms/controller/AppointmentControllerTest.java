@@ -20,9 +20,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 public class AppointmentControllerTest extends BaseControllerTestCase {
-    @Autowired
-    SalonUserService salonUserService;
-
     Appointment appointment1;
     Appointment appointment2;
 
