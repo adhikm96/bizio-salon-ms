@@ -1,9 +1,15 @@
 package com.thebizio.biziosalonms.service;
 
 import com.thebizio.biziosalonms.enums.BranchStatusEnum;
+import com.thebizio.biziosalonms.enums.PaymentTypeEnum;
 import com.thebizio.biziosalonms.enums.StatusEnum;
 import com.thebizio.biziosalonms.exception.ValidationException;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.UUID;
 
 @Service
 public class StrUtil {
@@ -20,6 +26,30 @@ public class StrUtil {
             return StatusEnum.valueOf(str);
         }catch (IllegalArgumentException exception) {
             throw new ValidationException("incorrect value for status");
+        }
+    }
+
+    public PaymentTypeEnum getPaymentTypeFrom(String str) {
+        try {
+            return PaymentTypeEnum.valueOf(str);
+        }catch (IllegalArgumentException exception) {
+            throw new ValidationException("incorrect value for payment type");
+        }
+    }
+
+    public UUID parsedUUID(String uuid) {
+        try {
+            return UUID.fromString(uuid);
+        }catch (IllegalArgumentException exception) {
+            throw new ValidationException("incorrect uuid");
+        }
+    }
+
+    public LocalDate parsedLocalDate(String localDate) {
+        try {
+            return LocalDate.parse(localDate, DateTimeFormatter.ISO_LOCAL_DATE);
+        }catch (DateTimeParseException exception) {
+            throw new ValidationException("incorrect date");
         }
     }
 }
