@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Random;
@@ -47,6 +48,14 @@ public class DemoEntitiesGenerator {
 
     @Autowired
     TaxHeadRepo taxHeadRepo;
+
+    @Autowired
+    CouponRepo couponRepo;
+
+    @Autowired
+    PromotionRepo promotionRepo;
+
+
 
     public String getUniqueCode() {
         StringBuilder sb = new StringBuilder(5);
@@ -488,4 +497,70 @@ public class DemoEntitiesGenerator {
 
         return invoiceRepo.save(invoice);
     }
+
+    public Coupon getCoupon(){
+
+        Coupon c1 = new Coupon();
+        c1.setName("SALON");
+        c1.setValue(10);
+        c1.setMaxRedemptions(50);
+        c1.setType(CouponTypeEnum.AMOUNT);
+        c1.setStatus(StatusEnum.ENABLED);
+        c1.setStartDate(LocalDateTime.now());
+        c1.setEndDate(LocalDateTime.now().plusDays(30));
+
+        return couponRepo.save(c1);
+
+    }
+
+    public Coupon getCoupon(StatusEnum status){
+
+        Coupon c1 = new Coupon();
+        c1.setName("SALON");
+        c1.setValue(10);
+        c1.setMaxRedemptions(50);
+        c1.setType(CouponTypeEnum.AMOUNT);
+        c1.setStatus(status);
+        c1.setStartDate(LocalDateTime.now());
+        c1.setEndDate(LocalDateTime.now().plusDays(30));
+
+        return couponRepo.save(c1);
+    }
+
+    public Promotion getPromotion(){
+
+        Promotion p1 = new Promotion();
+        p1.setCode("NEW-30");
+        p1.setEndDate(LocalDateTime.now().plusDays(1));
+        p1.setCoupon(getCoupon());
+        p1.setMaxRedemptions(10);
+        p1.setStatus(StatusEnum.ENABLED);
+        p1.setTimesRedeemed(0);
+        return promotionRepo.save(p1);
+    }
+
+    public Promotion getPromotion(StatusEnum status){
+
+        Promotion p1 = new Promotion();
+        p1.setCode("TRY20");
+        p1.setEndDate(LocalDateTime.now().plusDays(1));
+        p1.setCoupon(getCoupon());
+        p1.setMaxRedemptions(10);
+        p1.setStatus(status);
+        p1.setTimesRedeemed(0);
+        return promotionRepo.save(p1);
+    }
+
+    public Promotion getPromotion(Coupon coupon, StatusEnum status){
+
+        Promotion p1 = new Promotion();
+        p1.setCode("TRY20");
+        p1.setEndDate(LocalDateTime.now().plusDays(1));
+        p1.setCoupon(coupon);
+        p1.setMaxRedemptions(10);
+        p1.setStatus(status);
+        p1.setTimesRedeemed(0);
+        return promotionRepo.save(p1);
+    }
+
 }

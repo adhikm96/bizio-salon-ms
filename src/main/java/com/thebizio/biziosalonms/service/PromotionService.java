@@ -44,14 +44,10 @@ public class PromotionService {
             return promotionRepo.getAllByStatusAndCouponId(status.get(), couponId.get());
         if (status.isPresent() && endDate.isPresent())
             return promotionRepo.getAllByStatusAndEndDate(status.get(), endDate.get());
-        if (status.isPresent())
-            return promotionRepo.getAllByStatus(status.get());
-        if (code.isPresent())
-            return promotionRepo.getAllByCode(code.get());
-        if (endDate.isPresent())
-            return promotionRepo.getAllByEndDate(endDate.get());
-        if (couponId.isPresent())
-            return promotionRepo.getAllByCouponId(couponId.get());
+        if (status.isPresent()) return promotionRepo.getAllByStatus(status.get());
+        if (code.isPresent()) return promotionRepo.getAllByCode(code.get());
+        if (endDate.isPresent()) return promotionRepo.getAllByEndDate(endDate.get());
+        if (couponId.isPresent()) return promotionRepo.getAllByCouponId(couponId.get());
         return promotionRepo.getAll();
     }
 
@@ -62,15 +58,12 @@ public class PromotionService {
     public PromotionDetailDto savePromotion(PromotionCreateDto promoCreateDto){
 
         Coupon c = couponService.getCouponById(promoCreateDto.getCouponId());
-
         Integer sumTimesRedeemed = promotionRepo.sumByTimesRedeemedAndCoupon(c);
 
-        // for checking promotion redemptions can not be greater than remained redemption
         if (sumTimesRedeemed != null && (sumTimesRedeemed + promoCreateDto.getMaxRedemptions() > c.getMaxRedemptions())){
             throw new ValidationException("Promotion's max redemptions can not exceed coupon's max redemption");
         }
 
-        // for checking promotion redemptions can not be greater than coupon max redemption
         if(sumTimesRedeemed == null && promoCreateDto.getMaxRedemptions() > c.getMaxRedemptions()){
             throw new ValidationException("Promotion's max redemptions can not exceed coupon's max redemption");
         }
@@ -116,7 +109,7 @@ public class PromotionService {
         return code;
     }
 
-    private Promotion findPromotionById(UUID promotionId) {
+    public Promotion findPromotionById(UUID promotionId) {
         return promotionRepo.findById(promotionId).orElseThrow(() -> new ValidationException("promotion not found with given id"));
     }
 
@@ -125,7 +118,7 @@ public class PromotionService {
         Promotion promotion = findPromotionById(promotionId);
         Coupon c = promotion.getCoupon();
 
-        if (c.getStatus().equals(status)) throw new ValidationException("coupon is "+status.toString().toLowerCase());
+        if (c.getStatus() == StatusEnum.DISABLED) throw new ValidationException("coupon is disabled");
         promotion.setStatus(status);
         promotionRepo.save(promotion);
 

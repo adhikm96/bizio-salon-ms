@@ -60,4 +60,6 @@ public interface PromotionRepo extends JpaRepository<Promotion, UUID> {
             " p.timesRedeemed as timesRedeemed from Promotion p " +
             "where p.status =:status and p.code =:code and p.coupon.id =:couponId and p.endDate =:endDate ORDER BY p.modified DESC")
     List<PromotionListPrj> getAllByStatusAndCodeAndCouponIdAndEndDate(StatusEnum status, String code, UUID couponId, LocalDateTime endDate);
+
+    boolean existsByCouponIdAndStatus(UUID couponId, StatusEnum status);
 }
