@@ -9,10 +9,12 @@ import com.thebizio.biziosalonms.projection.coupon.CouponDetailPrj;
 import com.thebizio.biziosalonms.projection.coupon.CouponListPrj;
 import com.thebizio.biziosalonms.service.CouponService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -30,8 +32,11 @@ public class CouponController {
     }
 
     @GetMapping
-    ResponseEntity<List<CouponListPrj>> findAll(@RequestParam Optional<StatusEnum> status) {
-        return ResponseEntity.ok(couponService.getAll(status));
+    ResponseEntity<List<CouponListPrj>> findAll(@RequestParam Optional<StatusEnum> status,
+                                                @RequestParam Optional<String> name,
+                                                @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Optional<LocalDateTime> startDate,
+                                                @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Optional<LocalDateTime> endDate) {
+        return ResponseEntity.ok(couponService.getAll(status, name, startDate, endDate));
     }
 
     @GetMapping("/{couponId}")

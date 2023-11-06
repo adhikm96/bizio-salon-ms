@@ -14,6 +14,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -53,9 +54,28 @@ public class CouponService {
         return couponRepo.findById(id).orElseThrow(() -> new NotFoundException("coupon not found"));
     }
 
-    public List<CouponListPrj> getAll(Optional<StatusEnum> status) {
-        return status.isPresent() ? couponRepo.getAll(status.get()) : couponRepo.getAll();
+    public List<CouponListPrj> getAll(Optional<StatusEnum> status, Optional<String> name,
+                                      Optional<LocalDateTime> startDate,
+                                      Optional<LocalDateTime> endDate) {
+        if (status.isPresent() && name.isPresent() && startDate.isPresent() && endDate.isPresent())
+            return couponRepo.getAllByStatusAndNameAndStartDateAndEndDate(status.get(), name.get(), startDate.get(), endDate.get());
+        if (status.isPresent() && name.isPresent())
+            return couponRepo.getAllByStatusAndName(status.get(), name.get());
+        if (status.isPresent() && startDate.isPresent())
+            return couponRepo.getAllByStatusAndStartDate(status.get(), startDate.get());
+        if (status.isPresent() && endDate.isPresent())
+            return couponRepo.getAllByStatusAndEndDate(status.get(), endDate.get());
+        if (status.isPresent())
+            return couponRepo.getAllByStatus(status.get());
+        if (name.isPresent())
+            return couponRepo.getAllByName(name.get());
+        if (startDate.isPresent())
+            return couponRepo.getAllByStartDate(startDate.get());
+        if (endDate.isPresent())
+            return couponRepo.getAllByEndDate(endDate.get());
+        return couponRepo.getAll();
     }
+
 
     private void checkUniqueName(String name) {
         if(couponRepo.existsByName(name)) throw new ValidationException("coupon name already exists");

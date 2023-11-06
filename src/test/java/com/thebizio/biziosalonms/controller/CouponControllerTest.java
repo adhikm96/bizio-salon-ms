@@ -61,6 +61,28 @@ public class CouponControllerTest extends BaseControllerTestCase {
                 .andExpect(jsonPath("$[0].status", is(c2.getStatus().toString())))
                 .andExpect(jsonPath("$[0].maxRedemptions", is(c2.getMaxRedemptions())));
 
+        mvc.perform(mvcReqHelper.setUp(get("/api/v1/coupons?name=" + c2.getName()), demoEntitiesGenerator.getAdminUser()))
+                .andExpect(jsonPath("$[0].name", is(c2.getName())))
+                .andExpect(jsonPath("$[0].value", is(Double.valueOf(c2.getValue()))))
+                .andExpect(jsonPath("$[0].type", is(c2.getType().toString())))
+                .andExpect(jsonPath("$[0].status", is(c2.getStatus().toString())))
+                .andExpect(jsonPath("$[0].maxRedemptions", is(c2.getMaxRedemptions())));
+
+
+        mvc.perform(mvcReqHelper.setUp(get("/api/v1/coupons?startDate=" + c2.getStartDate()), demoEntitiesGenerator.getAdminUser()))
+                .andExpect(jsonPath("$[0].name", is(c2.getName())))
+                .andExpect(jsonPath("$[0].value", is(Double.valueOf(c2.getValue()))))
+                .andExpect(jsonPath("$[0].type", is(c2.getType().toString())))
+                .andExpect(jsonPath("$[0].status", is(c2.getStatus().toString())))
+                .andExpect(jsonPath("$[0].maxRedemptions", is(c2.getMaxRedemptions())));
+
+        mvc.perform(mvcReqHelper.setUp(get("/api/v1/coupons?endDate=" + c2.getEndDate()), demoEntitiesGenerator.getAdminUser()))
+                .andExpect(jsonPath("$[0].name", is(c2.getName())))
+                .andExpect(jsonPath("$[0].value", is(Double.valueOf(c2.getValue()))))
+                .andExpect(jsonPath("$[0].type", is(c2.getType().toString())))
+                .andExpect(jsonPath("$[0].status", is(c2.getStatus().toString())))
+                .andExpect(jsonPath("$[0].maxRedemptions", is(c2.getMaxRedemptions())));
+
     }
 
 
