@@ -59,6 +59,7 @@ public class TaxScheduleService {
 
 
     public TaxScheduleDetailDto createTaxSchedule(CreateUpdateTaxScheduleDto dto) {
+        if (taxScheduleRepo.existsByBranchIdAndStatus(dto.getBranchId(),StatusEnum.ENABLED)) throw new ValidationException("There is already one enabled tax schedule");
         return modelMapper.map(setTaxScheduleDetail(new TaxSchedule(),dto), TaxScheduleDetailDto.class);
     }
 
@@ -92,6 +93,8 @@ public class TaxScheduleService {
     public String toggleTaxSchedule(UUID taxScheduleId, StatusEnum status) {
         TaxSchedule ts = fetchById(taxScheduleId);
         if (ts.getStatus().equals(status)) throw new ValidationException("Tax head is already "+status.toString().toLowerCase());
+        if (status.equals(StatusEnum.ENABLED) && taxScheduleRepo.existsByBranchAndStatus(ts.getBranch(),StatusEnum.ENABLED)) throw new ValidationException("There is already one enabled tax schedule");
+
         ts.setStatus(status);
         taxScheduleRepo.save(ts);
         return ConstantMsg.OK;

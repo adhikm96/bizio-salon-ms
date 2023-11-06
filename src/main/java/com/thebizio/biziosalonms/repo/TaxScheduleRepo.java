@@ -11,4 +11,8 @@ import java.util.UUID;
 
 public interface TaxScheduleRepo extends JpaRepository<TaxSchedule, UUID>, JpaSpecificationExecutor<TaxSchedule> {
     Optional<TaxSchedule> findByBranchAndStatus(Branch branch, StatusEnum status);
+
+    boolean existsByBranchIdAndStatus(UUID branchId,StatusEnum status);
+
+    boolean existsByBranchAndStatus(Branch branch,StatusEnum status);
 }
