@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Random;
 import java.util.UUID;
 
@@ -20,6 +21,9 @@ public class DemoEntitiesGenerator {
 
     @Autowired
     AddressRepo addressRepo;
+
+    @Autowired
+    PaymentRepo paymentRepo;
 
     @Autowired
     SalonUserRepo salonUserRepo;
@@ -135,9 +139,27 @@ public class DemoEntitiesGenerator {
         WorkSchedule workSchedule = new WorkSchedule();
         workSchedule.setName("9 to 5");
         workSchedule.setStatus(StatusEnum.ENABLED);
+
+        workSchedule.appendItem(getWorkScheduleItem());
         return workScheduleRepo.save(workSchedule) ;
     }
 
+    public WorkSchedule getWorkSchedule(StatusEnum statusEnum) {
+        WorkSchedule workSchedule = new WorkSchedule();
+        workSchedule.setName("9 to 5");
+        workSchedule.setStatus(statusEnum);
+        return workScheduleRepo.save(workSchedule) ;
+    }
+
+    public WorkSchedule getWorkSchedule(Branch branch) {
+        WorkSchedule workSchedule = new WorkSchedule();
+        workSchedule.setName("9 to 5");
+        workSchedule.setStatus(StatusEnum.ENABLED);
+        workScheduleRepo.save(workSchedule);
+        branch.setWorkSchedule(workSchedule);
+        branchRepo.save(branch);
+        return workSchedule;
+    }
 
     public Company getCompany() {
         Company company = new Company();
@@ -430,13 +452,13 @@ public class DemoEntitiesGenerator {
         return salonUserRepo.save(user);
     }
 
-    public Coupon getCoupon(){
+    public Coupon getCoupon(CouponTypeEnum couponType){
         Coupon coupon = new Coupon();
         coupon.setName("Coupon1");
         coupon.setStatus(StatusEnum.ENABLED);
         coupon.setMaxRedemptions(15);
         coupon.setEndDate(LocalDateTime.now().plusDays(5));
-        coupon.setType(CouponTypeEnum.PERCENT);
+        coupon.setType(couponType);
         coupon.setStartDate(LocalDateTime.now());
         coupon.setValue(15);
         return couponRepo.save(coupon);
@@ -451,5 +473,144 @@ public class DemoEntitiesGenerator {
         promotion.setTimesRedeemed(0);
         promotion.setCoupon(coupon);
         return promotionRepo.save(promotion);
+    }
+
+    public WorkScheduleItem getWorkScheduleItem() {
+        WorkScheduleItem item = new WorkScheduleItem();
+
+        item.setDay(WorkScheduleDayEnum.MONDAY);
+        item.setEndTime(LocalTime.now().plusHours(3).truncatedTo(ChronoUnit.SECONDS));
+        item.setStartTime(LocalTime.now().minusHours(3).truncatedTo(ChronoUnit.SECONDS));
+
+        item.setBreakStartTime(LocalTime.now().plusHours(1).truncatedTo(ChronoUnit.SECONDS));
+        item.setBreakEndTime(LocalTime.now().plusHours(2).truncatedTo(ChronoUnit.SECONDS));
+
+        return item;
+    }
+
+    public Payment getPayment() {
+        Payment payment = new Payment();
+        payment.setPaymentDate(LocalDate.now());
+        payment.setPaymentRef("PAYMENT_" + UUID.randomUUID().toString().substring(0,4));
+        payment.setPaymentType(PaymentTypeEnum.CASH);
+        payment.setInvoice(getInvoice());
+
+        return paymentRepo.save(payment);
+    }
+
+    public Payment getPayment(Branch branch) {
+        Payment payment = new Payment();
+        payment.setPaymentDate(LocalDate.now());
+        payment.setPaymentRef("PAYMENT_" + UUID.randomUUID().toString().substring(0,4));
+        payment.setPaymentType(PaymentTypeEnum.CASH);
+        payment.setInvoice(getInvoice(branch));
+
+        return paymentRepo.save(payment);
+    }
+
+    public Payment getPayment(Invoice invoice) {
+        Payment payment = new Payment();
+        payment.setPaymentDate(LocalDate.now());
+        payment.setPaymentRef("PAYMENT_" + UUID.randomUUID().toString().substring(0,4));
+        payment.setPaymentType(PaymentTypeEnum.CASH);
+        payment.setInvoice(invoice);
+
+        return paymentRepo.save(payment);
+    }
+
+    public Payment getPayment(LocalDate postingDate) {
+        Payment payment = new Payment();
+        payment.setPaymentDate(postingDate);
+        payment.setPaymentRef("PAYMENT_" + UUID.randomUUID().toString().substring(0,4));
+        payment.setPaymentType(PaymentTypeEnum.CASH);
+        payment.setInvoice(getInvoice());
+
+        return paymentRepo.save(payment);
+    }
+
+    @Autowired
+    InvoiceRepo invoiceRepo;
+
+    public Invoice getInvoice() {
+        Invoice invoice = new Invoice();
+        invoice.setBranch(getBranch());
+
+        // set other fields
+
+        return invoiceRepo.save(invoice);
+    }
+
+    public Invoice getInvoice(Branch branch) {
+        Invoice invoice = new Invoice();
+        invoice.setBranch(branch);
+
+        // set other fields
+
+        return invoiceRepo.save(invoice);
+    }
+
+    public Coupon getCoupon(){
+
+        Coupon c1 = new Coupon();
+        c1.setName("SALON");
+        c1.setValue(10);
+        c1.setMaxRedemptions(50);
+        c1.setType(CouponTypeEnum.AMOUNT);
+        c1.setStatus(StatusEnum.ENABLED);
+        c1.setStartDate(LocalDateTime.now());
+        c1.setEndDate(LocalDateTime.now().plusDays(30));
+
+        return couponRepo.save(c1);
+
+    }
+
+    public Coupon getCoupon(StatusEnum status){
+
+        Coupon c1 = new Coupon();
+        c1.setName("SALON");
+        c1.setValue(10);
+        c1.setMaxRedemptions(50);
+        c1.setType(CouponTypeEnum.AMOUNT);
+        c1.setStatus(status);
+        c1.setStartDate(LocalDateTime.now());
+        c1.setEndDate(LocalDateTime.now().plusDays(30));
+
+        return couponRepo.save(c1);
+    }
+
+    public Promotion getPromotion(){
+
+        Promotion p1 = new Promotion();
+        p1.setCode("NEW-30");
+        p1.setEndDate(LocalDateTime.now().plusDays(1));
+        p1.setCoupon(getCoupon());
+        p1.setMaxRedemptions(10);
+        p1.setStatus(StatusEnum.ENABLED);
+        p1.setTimesRedeemed(0);
+        return promotionRepo.save(p1);
+    }
+
+    public Promotion getPromotion(StatusEnum status){
+
+        Promotion p1 = new Promotion();
+        p1.setCode("TRY20");
+        p1.setEndDate(LocalDateTime.now().plusDays(1));
+        p1.setCoupon(getCoupon());
+        p1.setMaxRedemptions(10);
+        p1.setStatus(status);
+        p1.setTimesRedeemed(0);
+        return promotionRepo.save(p1);
+    }
+
+    public Promotion getPromotion(Coupon coupon, StatusEnum status){
+
+        Promotion p1 = new Promotion();
+        p1.setCode("TRY20");
+        p1.setEndDate(LocalDateTime.now().plusDays(1));
+        p1.setCoupon(coupon);
+        p1.setMaxRedemptions(10);
+        p1.setStatus(status);
+        p1.setTimesRedeemed(0);
+        return promotionRepo.save(p1);
     }
 }

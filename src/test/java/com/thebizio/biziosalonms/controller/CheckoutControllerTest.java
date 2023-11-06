@@ -94,7 +94,7 @@ public class CheckoutControllerTest extends BaseControllerTestCase {
     @Test
     @Transactional
     void checkoutSessionWithDiscountAndTaxTest() throws Exception {
-        Coupon coupon = demoEntitiesGenerator.getCoupon();
+        Coupon coupon = demoEntitiesGenerator.getCoupon(CouponTypeEnum.PERCENT);
         Promotion promotion = demoEntitiesGenerator.getPromotion(coupon);
 
         TaxSchedule taxSchedule = new TaxSchedule();
@@ -124,7 +124,7 @@ public class CheckoutControllerTest extends BaseControllerTestCase {
     @Test
     @Transactional
     void checkoutInvoiceTest() throws Exception {
-        Coupon coupon = demoEntitiesGenerator.getCoupon();
+        Coupon coupon = demoEntitiesGenerator.getCoupon(CouponTypeEnum.PERCENT);
         Promotion promotion = demoEntitiesGenerator.getPromotion(coupon);
 
         TaxSchedule taxSchedule = new TaxSchedule();
