@@ -316,13 +316,17 @@ public class DemoEntitiesGenerator {
     }
 
     public String fakeEmail() {
-        int __ = random.nextInt(1000);
-        return "email" + __ + "@example" + __ + ".com";
+        // int __ = random.nextInt(1000);
+        return "email" + getRandomString() + "@example" + getRandomString() + ".com";
+    }
+
+    private String getRandomString() {
+        return UUID.randomUUID().toString().substring(0,5);
     }
 
     String fakeUsername() {
-        int __ = random.nextInt(1000);
-        return "user" + __;
+       // int __ = random.nextInt(1000);
+        return "user" + getRandomString();
     }
 
     public User getSalonUser() {
