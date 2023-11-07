@@ -15,5 +15,7 @@ public class CheckoutSessionDto {
     @NotNull@NotEmpty
     private List<UUID> items;
     private String promoCode;
+
+    @NotNull
     private UUID appointmentId;
 }
