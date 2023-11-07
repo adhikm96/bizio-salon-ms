@@ -6,20 +6,28 @@ import com.thebizio.biziosalonms.dto.checkout.CheckoutSessionDto;
 import com.thebizio.biziosalonms.dto.checkout.GrossTotalTaxDetailDto;
 import com.thebizio.biziosalonms.dto.checkout.TaxStringDto;
 import com.thebizio.biziosalonms.dto.invoice.BillDto;
+import com.thebizio.biziosalonms.dto.invoice.InvoiceDetailDto;
+import com.thebizio.biziosalonms.dto.invoice.InvoiceListDetailDto;
 import com.thebizio.biziosalonms.dto.tax_schedule_item.ItemTaxDetailDto;
 import com.thebizio.biziosalonms.entity.*;
 import com.thebizio.biziosalonms.enums.CouponTypeEnum;
 import com.thebizio.biziosalonms.enums.InvoiceStatus;
+import com.thebizio.biziosalonms.exception.AlreadyExistsException;
 import com.thebizio.biziosalonms.exception.NotFoundException;
 import com.thebizio.biziosalonms.repo.AppointmentRepo;
 import com.thebizio.biziosalonms.repo.InvoiceRepo;
 import com.thebizio.biziosalonms.repo.TaxScheduleItemRepo;
+import com.thebizio.biziosalonms.specification.InvoiceSpecification;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -51,6 +59,12 @@ public class InvoiceService {
 
     @Autowired
     private InvoiceRepo invoiceRepo;
+
+    @Autowired
+    private InvoiceSpecification invoiceSpecification;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     public Invoice fetchById(UUID invoiceId){
         return invoiceRepo.findById(invoiceId).orElseThrow(() -> new NotFoundException("Invoice not found"));
@@ -159,4 +173,21 @@ public class InvoiceService {
         return invoiceBillDto;
     }
 
+    public List<InvoiceListDetailDto> getAllInvoice(Map<String, String> filters) {
+        List<Invoice> invoices = invoiceRepo.findAll(invoiceSpecification.listWithFilter(filters), Sort.by(Sort.Direction.DESC,"modified"));
+        return modelMapper.map(invoices,new TypeToken<List<InvoiceListDetailDto>>(){}.getType());
+    }
+
+    public InvoiceDetailDto getInvoiceId(UUID invoiceId) {
+        return modelMapper.map(fetchById(invoiceId),InvoiceDetailDto.class);
+    }
+
+    public String payInvoice(UUID invoiceId) {
+        Invoice invoice =fetchById(invoiceId);
+        if (invoice.getStatus().equals(InvoiceStatus.PAID)) throw new AlreadyExistsException("Invoice is already paid");
+        if (invoice.getStatus().equals(InvoiceStatus.CANCELLED)) throw new AlreadyExistsException("Invoice is cancelled");
+        invoice.setStatus(InvoiceStatus.PAID);
+        invoiceRepo.save(invoice);
+        return ConstantMsg.OK;
+    }
 }

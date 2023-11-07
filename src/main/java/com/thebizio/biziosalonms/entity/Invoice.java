@@ -1,5 +1,6 @@
 package com.thebizio.biziosalonms.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.thebizio.biziosalonms.enums.InvoiceStatus;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -56,4 +57,8 @@ public class Invoice extends LastUpdateDetail {
     private Double netTotal;
 
     private InvoiceStatus status;
+
+    @JsonManagedReference
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "invoice")
+    private List<Appointment> appointments;
 }

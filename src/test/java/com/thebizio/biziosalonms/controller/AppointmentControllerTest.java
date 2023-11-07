@@ -48,7 +48,6 @@ public class AppointmentControllerTest extends BaseControllerTestCase {
                 .andExpect(jsonPath("$.length()", is(1)));
     }
 
-
     @Test
     void createAppointmentTest() throws Exception {
         CustomerUser customerUser = demoEntitiesGenerator.getCustomer();
