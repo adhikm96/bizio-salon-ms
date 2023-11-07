@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
+import java.time.LocalDate;
 import java.util.Map;
 import java.util.UUID;
 
@@ -36,7 +37,7 @@ public class InvoiceSpecification {
             }
 
             if(filters.containsKey("postingDate") && !filters.get("postingDate").isEmpty()){
-                predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("postingDate"), filters.get("postingDate")));
+                predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("postingDate"), strUtil.parsedLocalDate( filters.get("postingDate"))));
             }
 
             if(filters.containsKey("customer") && !filters.get("customer").isEmpty()){

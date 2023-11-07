@@ -50,6 +50,7 @@ public class InvoiceControllerTest extends BaseControllerTestCase {
     void listAllTest() throws Exception {
         Invoice invoice = new Invoice();
         invoice.setStatus(InvoiceStatus.UNPAID);
+        invoice.setPostingDate(LocalDate.now());
         invoice.setNetTotal(200.0);
         invoice.setBranch(branch);
         invoice.setCustomerUser(appointment1.getCustomerUser());
@@ -60,6 +61,7 @@ public class InvoiceControllerTest extends BaseControllerTestCase {
         invoice2.setStatus(InvoiceStatus.PAID);
         invoice2.setNetTotal(300.0);
         invoice2.setBranch(branch);
+        invoice2.setPostingDate(LocalDate.now().minusDays(1));
         invoice2.setCustomerUser(appointment2.getCustomerUser());
         invoice2.setAppointments(Collections.singletonList(appointment2));
         invoiceRepo.save(invoice2);
@@ -75,6 +77,9 @@ public class InvoiceControllerTest extends BaseControllerTestCase {
 
         mvc.perform(mvcReqHelper.setUp(get("/api/v1/invoices"), demoEntitiesGenerator.getAdminUser()))
                 .andExpect(jsonPath("$.length()", is(2)));
+
+        mvc.perform(mvcReqHelper.setUp(get("/api/v1/invoices?postingDate="+invoice.getPostingDate().toString()), demoEntitiesGenerator.getAdminUser()))
+                .andExpect(jsonPath("$.length()", is(1)));
     }
 
     @Test
