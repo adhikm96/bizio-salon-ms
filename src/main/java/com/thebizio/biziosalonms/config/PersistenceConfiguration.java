@@ -34,13 +34,6 @@ public class PersistenceConfiguration {
         this.multiDataSourceHolder = multiDataSourceHolder;
     }
 
-    @Primary
-    @Bean(name = "mainDataSource")
-    @ConfigurationProperties("main.datasource")
-    public DataSource mainDataSource() {
-        return DataSourceBuilder.create().type(HikariDataSource.class).build();
-    }
-
     @Bean(name = "multiRoutingDataSource")
     public MultiRoutingDataSource multiRoutingDataSource() {
         MultiRoutingDataSource multiRoutingDataSource = new MultiRoutingDataSource();

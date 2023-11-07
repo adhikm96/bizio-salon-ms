@@ -7,18 +7,13 @@ import javax.sql.DataSource;
 
 @Service
 public class DBMigrateService {
-
-    final Flyway flyway;
-
-    public DBMigrateService(Flyway flyway) {
-        this.flyway = flyway;
-    }
-
     public void migrate(DataSource dataSource) {
-        Flyway fly = Flyway.configure()
-                .configuration(flyway.getConfiguration())
+
+        Flyway flyway = Flyway.configure()
                 .dataSource(dataSource)
                 .defaultSchema("public")
                 .load();
+
+        flyway.migrate();
     }
 }

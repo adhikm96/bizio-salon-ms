@@ -23,6 +23,7 @@ public class Branch extends LastUpdateDetail{
 
     private String name;
 
+    @Column(name = "contact_no")
     private String contactNo;
     private String email;
     private BranchStatusEnum status;
