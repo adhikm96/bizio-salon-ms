@@ -79,7 +79,9 @@ public class CheckoutService {
             appointmentRepo.save(appointment);
         }
 
-        BillDto BillDto = invoiceService.calculateTaxAndDiscount(appointment,dto);
+        Promotion promotion = dto.getPromoCode() == null || dto.getPromoCode().equals("") ? null : promotionService.findByCode(dto.getPromoCode());
+        if (promotion != null && !promotion.isValid()) throw new ValidationException("Invalid promo code");
+        BillDto BillDto = invoiceService.calculateTaxAndDiscount(appointment,dto,promotion);
 
         CheckoutSessionResponseDto responseDto = new CheckoutSessionResponseDto();
         responseDto.setGrossTotal(BillDto.getGrossTotal());

@@ -14,6 +14,7 @@ import com.thebizio.biziosalonms.enums.CouponTypeEnum;
 import com.thebizio.biziosalonms.enums.InvoiceStatus;
 import com.thebizio.biziosalonms.exception.AlreadyExistsException;
 import com.thebizio.biziosalonms.exception.NotFoundException;
+import com.thebizio.biziosalonms.exception.ValidationException;
 import com.thebizio.biziosalonms.repo.AppointmentRepo;
 import com.thebizio.biziosalonms.repo.InvoiceRepo;
 import com.thebizio.biziosalonms.repo.TaxScheduleItemRepo;
@@ -71,16 +72,18 @@ public class InvoiceService {
     }
 
     public Invoice createInvoice(Appointment appointment, CheckoutSessionDto dto) {
-        return setItem(appointment,dto,new Invoice());
+        Promotion promotion = dto.getPromoCode() == null || dto.getPromoCode().equals("") ? null : promotionService.findByCode(dto.getPromoCode());
+        if (promotion != null && !promotion.isValid()) throw new ValidationException("Invalid promo code");
+        if (promotion != null) promotionService.incrementPromoCodeCounter(promotion);
+        return setItem(appointment,dto,new Invoice(),promotion);
     }
 
     public Invoice updateInvoice(Appointment appointment, CheckoutSessionDto dto,Invoice invoice) {
-        return setItem(appointment,dto,invoice);
+        return setItem(appointment,dto,invoice,invoice.getPromotion());
     }
 
-    private Invoice setItem(Appointment appointment, CheckoutSessionDto dto,Invoice invoice) {
-        BillDto BillDto = calculateTaxAndDiscount(appointment,dto);
-
+    private Invoice setItem(Appointment appointment, CheckoutSessionDto dto,Invoice invoice,Promotion promotion) {
+        BillDto BillDto = calculateTaxAndDiscount(appointment,dto,promotion);
         invoice.setBranch(BillDto.getBranch());
         invoice.setCustomerUser(appointment.getCustomerUser());
         invoice.setStatus(InvoiceStatus.UNPAID);
@@ -91,6 +94,8 @@ public class InvoiceService {
         invoice.setDiscount(BillDto.getDiscount());
         invoice.setDiscountStr(BillDto.getDiscountStr());
         invoice.setTaxes(BillDto.getTaxes());
+        invoice.setPromotion(promotion);
+
         try {
             invoice.setTaxStr(objectMapper.writeValueAsString(BillDto.getTaxStringDto()));
         } catch (JsonProcessingException e) {
@@ -107,7 +112,7 @@ public class InvoiceService {
     }
 
 
-    public BillDto calculateTaxAndDiscount(Appointment appointment, CheckoutSessionDto dto) {
+    public BillDto calculateTaxAndDiscount(Appointment appointment, CheckoutSessionDto dto,Promotion promotion) {
         Branch branch = appointment.getBranch();
         Double grossTotal = 0.0;
         Double discount = 0.0;
@@ -115,7 +120,6 @@ public class InvoiceService {
         Double taxes = 0.0;
         Double netTotal = 0.0;
         boolean isFullDiscount = false;
-        Promotion promotion = dto.getPromoCode() == null || dto.getPromoCode().equals("") ? null : promotionService.findByCode(dto.getPromoCode());
 
         TaxStringDto taxStringDto = new TaxStringDto();
         TaxSchedule taxSchedule = taxScheduleService.getTaxScheduleOfBranch(branch);
@@ -154,7 +158,6 @@ public class InvoiceService {
             }
             discount = calculateUtilService.roundTwoDigits(discount);
             discountStr = "{\""+promotion.getCode()+"\":"+discount+"}";
-            promotionService.incrementPromoCodeCounter(promotion);
         }
 
         netTotal = isFullDiscount ? 0.0 : calculateUtilService.roundTwoDigits(grossTotal + taxes - discount);

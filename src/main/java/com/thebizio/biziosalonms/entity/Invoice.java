@@ -1,5 +1,6 @@
 package com.thebizio.biziosalonms.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.thebizio.biziosalonms.enums.InvoiceStatus;
 import lombok.Getter;
@@ -57,6 +58,11 @@ public class Invoice extends LastUpdateDetail {
     private Double netTotal;
 
     private InvoiceStatus status;
+
+    @ManyToOne
+    @JoinColumn(name = "promotion_id")
+    @JsonBackReference
+    private Promotion promotion;
 
     @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "invoice")
