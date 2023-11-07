@@ -33,7 +33,7 @@ public class InvoiceSpecification {
                 predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("name"), filters.get("name")));
 
             if(filters.containsKey("branch") && !filters.get("branch").isEmpty()){
-                predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.join("branch").get("id"), UUID.fromString(filters.get("branch"))));
+                predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.join("branch").get("id"), strUtil.parsedUUID(filters.get("branch"))));
             }
 
             if(filters.containsKey("postingDate") && !filters.get("postingDate").isEmpty()){
@@ -41,12 +41,12 @@ public class InvoiceSpecification {
             }
 
             if(filters.containsKey("customer") && !filters.get("customer").isEmpty()){
-                predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.join("customerUser").get("id"), UUID.fromString(filters.get("customer"))));
+                predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.join("customerUser").get("id"), strUtil.parsedUUID(filters.get("customer"))));
             }
 
             if(filters.containsKey("appointment") && !filters.get("appointment").isEmpty()){
                 Join<Invoice, Appointment> appointment = root.join( "appointments");
-                predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(appointment.get("id"), UUID.fromString(filters.get("appointment"))));
+                predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(appointment.get("id"), strUtil.parsedUUID(filters.get("appointment"))));
             }
 
             if(filters.containsKey("customerName") && !filters.get("customerName").isEmpty()){
