@@ -102,11 +102,6 @@ class KeycloakConfig extends KeycloakWebSecurityConfigurerAdapter {
 	}
 
 	@Bean
-	public RestTemplate getRestTemplate() {
-		return new RestTemplate();
-	}
-
-	@Bean
 	public ModelMapper modelMapper() {
 		return new ModelMapper();
 	}
