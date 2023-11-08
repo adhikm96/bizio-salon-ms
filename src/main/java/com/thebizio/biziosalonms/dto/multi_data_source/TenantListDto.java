@@ -1,5 +1,6 @@
 package com.thebizio.biziosalonms.dto.multi_data_source;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -7,6 +8,7 @@ import java.util.UUID;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class TenantListDto {
     private UUID id;
 

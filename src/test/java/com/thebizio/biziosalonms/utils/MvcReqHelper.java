@@ -3,16 +3,21 @@ package com.thebizio.biziosalonms.utils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thebizio.biziosalonms.entity.User;
+import com.thebizio.biziosalonms.service.flyway.DBMigrateService;
+import com.thebizio.biziosalonms.service.multi_data_source.MultiDataSourceHolder;
+import com.thebizio.biziosalonms.testcontaines.BaseTestContainer;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.KeycloakBuilder;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.ErrorRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
+import javax.servlet.http.Cookie;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,6 +28,15 @@ import static com.thebizio.biziosalonms.testcontaines.BaseTestContainer.*;
 
 @Service
 public class MvcReqHelper {
+
+    private static final String ORG_CODE_COOKIE_NAME = "org-code";
+
+    @Autowired
+    MultiDataSourceHolder multiDataSourceHolder;
+
+    @Value("${x-priv-pwd}")
+    String xPrivPwd;
+
     public static String DEFAULT_PASSWORD = "password";
 
     @Autowired
@@ -78,14 +92,16 @@ public class MvcReqHelper {
 
     public MockHttpServletRequestBuilder setUp(MockHttpServletRequestBuilder builder, User user) {
         return builder.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)
-                .header("Authorization", getToken(user));
+                .header("Authorization", getToken(user))
+                .cookie(new Cookie(ORG_CODE_COOKIE_NAME, ORG_CODE));
     }
 
     public MockHttpServletRequestBuilder setUp(MockHttpServletRequestBuilder builder, Object body, User user)
             throws JsonProcessingException {
         return builder.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(body))
-                .header("Authorization", getToken(user));
+                .header("Authorization", getToken(user))
+                .cookie(new Cookie(ORG_CODE_COOKIE_NAME, ORG_CODE));
     }
 
     public MockHttpServletRequestBuilder setUpWithoutToken(MockHttpServletRequestBuilder builder) {
