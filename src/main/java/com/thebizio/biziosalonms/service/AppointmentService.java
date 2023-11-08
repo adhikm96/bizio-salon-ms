@@ -5,6 +5,7 @@ import com.thebizio.biziosalonms.dto.appointment.AppointmentListDto;
 import com.thebizio.biziosalonms.dto.appointment.CancelReasonDto;
 import com.thebizio.biziosalonms.dto.appointment.CreateAppointmentDto;
 import com.thebizio.biziosalonms.entity.Appointment;
+import com.thebizio.biziosalonms.entity.Invoice;
 import com.thebizio.biziosalonms.entity.Item;
 import com.thebizio.biziosalonms.entity.User;
 import com.thebizio.biziosalonms.enums.AppointmentStatus;
@@ -69,6 +70,10 @@ public class AppointmentService {
 
     public Appointment fetchAppointmentById(UUID appointmentId) {
         return appointmentRepo.findById(appointmentId).orElseThrow(() -> new NotFoundException("Appointment not found"));
+    }
+
+    public Appointment fetchAppointmentByInvoice(Invoice invoice){
+        return appointmentRepo.findByInvoice(invoice).orElseThrow(() -> new NotFoundException("Appointment not found"));
     }
 
     public AppointmentDetailDto getAppointmentById(UUID appointmentId) {

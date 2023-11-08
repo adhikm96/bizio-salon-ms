@@ -29,6 +29,7 @@ public class CustomerUser extends LastUpdateDetail {
     private String email;
     private String mobile;
     private GenderEnum gender;
+    private String avatar;
     private FederationEnum federation;
     private StatusEnum status;
 
