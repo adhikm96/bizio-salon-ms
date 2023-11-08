@@ -14,8 +14,6 @@ import java.util.*;
 @Slf4j
 public class MultiDataSourceHolder {
 
-    final DBUtil util;
-
     final CryptoService cryptoService;
 
     @Setter
@@ -25,8 +23,7 @@ public class MultiDataSourceHolder {
 
     private final Map<Object, Object> targetDataSources = new HashMap<>();
 
-    public MultiDataSourceHolder(DBUtil util, CryptoService cryptoService, TenantService tenantService) {
-        this.util = util;
+    public MultiDataSourceHolder(CryptoService cryptoService, TenantService tenantService) {
         this.cryptoService = cryptoService;
         this.tenantService = tenantService;
     }
@@ -51,7 +48,7 @@ public class MultiDataSourceHolder {
 
         for (TenantListDto tenant :
                 tenants) {
-            DataSource ds = util.getDS(tenant.getUrl(), tenant.getUsername(), tenant.getPassword());
+            DataSource ds = DBUtil.getDataSource(tenant.getUrl(), tenant.getUsername(), tenant.getPassword());
             putDS(tenant.getOrgCode(), ds);
 //            dbMigrateService.migrate(ds); // added this for testing on local
         }

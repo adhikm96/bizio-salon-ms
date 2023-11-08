@@ -16,17 +16,16 @@ import java.util.List;
 public class TenantServiceImplMock implements TenantService {
 
     final DBMigrateService dbMigrateService;
-    final DBUtil dbUtil;
 
-    public TenantServiceImplMock(DBMigrateService dbMigrateService, DBUtil dbUtil) {
+    public TenantServiceImplMock(DBMigrateService dbMigrateService) {
         this.dbMigrateService = dbMigrateService;
-        this.dbUtil = dbUtil;
     }
+
 
     @Override
     public List<TenantListDto> fetchTenants() {
         // migrating
-        dbMigrateService.migrate(dbUtil.getDS(
+        dbMigrateService.migrate(DBUtil.getDataSource(
                 BaseTestContainer.tenant.getUrl(),
                 BaseTestContainer.tenant.getUsername(),
                 BaseTestContainer.tenant.getPassword()
