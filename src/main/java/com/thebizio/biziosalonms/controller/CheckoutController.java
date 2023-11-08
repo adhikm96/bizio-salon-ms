@@ -34,9 +34,9 @@ public class CheckoutController {
         return ResponseEntity.ok(checkoutService.checkoutSession(dto));
     }
 
-    @PostMapping("/session/back")
-    public ResponseEntity<ResponseMessageDto> sessionBack(@RequestBody @Valid AppointmentIdDto dto){
-        return ResponseEntity.ok(new ResponseMessageDto(checkoutService.checkoutSessionBack(dto)));
+    @PostMapping("/session/callback")
+    public ResponseEntity<ResponseMessageDto> sessionCallback(@RequestBody @Valid AppointmentIdDto dto){
+        return ResponseEntity.ok(new ResponseMessageDto(checkoutService.checkoutSessionCallback(dto)));
     }
 
     @PostMapping

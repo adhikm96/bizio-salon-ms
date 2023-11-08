@@ -1,6 +1,5 @@
 package com.thebizio.biziosalonms.controller;
 
-import com.thebizio.biziosalonms.dto.appointment.CreateAppointmentDto;
 import com.thebizio.biziosalonms.dto.checkout.CheckoutPaymentDto;
 import com.thebizio.biziosalonms.dto.checkout.CheckoutSessionDto;
 import com.thebizio.biziosalonms.entity.*;
@@ -9,7 +8,6 @@ import com.thebizio.biziosalonms.repo.AppointmentRepo;
 import com.thebizio.biziosalonms.repo.InvoiceRepo;
 import com.thebizio.biziosalonms.repo.PaymentRepo;
 import com.thebizio.biziosalonms.repo.TaxScheduleRepo;
-import com.thebizio.biziosalonms.service.SalonUserService;
 import com.thebizio.biziosalonms.utils.BaseControllerTestCase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,16 +15,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 public class CheckoutControllerTest extends BaseControllerTestCase {

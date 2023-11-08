@@ -30,8 +30,6 @@ public class PromotionService {
     private CouponRepo couponRepo;
 
     @Autowired
-    private CalculateUtilService calculatedUtilService;
-    @Autowired
     private ModelMapper modelMapper;
 
     @Autowired

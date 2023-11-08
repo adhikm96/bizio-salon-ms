@@ -3,12 +3,17 @@ package com.thebizio.biziosalonms.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thebizio.biziosalonms.dto.appointment.AppointmentIdDto;
-import com.thebizio.biziosalonms.dto.checkout.*;
+import com.thebizio.biziosalonms.dto.checkout.CheckoutPaymentDto;
+import com.thebizio.biziosalonms.dto.checkout.CheckoutSessionDto;
+import com.thebizio.biziosalonms.dto.checkout.CheckoutSessionResponseDto;
 import com.thebizio.biziosalonms.dto.invoice.BillDto;
 import com.thebizio.biziosalonms.dto.invoice.InvoiceDetailDto;
 import com.thebizio.biziosalonms.dto.item.ItemListDto;
 import com.thebizio.biziosalonms.dto.payment.PaymentDetailDto;
-import com.thebizio.biziosalonms.entity.*;
+import com.thebizio.biziosalonms.entity.Appointment;
+import com.thebizio.biziosalonms.entity.Invoice;
+import com.thebizio.biziosalonms.entity.Payment;
+import com.thebizio.biziosalonms.entity.Promotion;
 import com.thebizio.biziosalonms.enums.AppointmentStatus;
 import com.thebizio.biziosalonms.enums.InvoiceStatus;
 import com.thebizio.biziosalonms.enums.PaymentTypeEnum;
@@ -45,9 +50,6 @@ public class CheckoutService {
 
     @Autowired
     private TaxScheduleService taxScheduleService;
-
-    @Autowired
-    private CalculateUtilService calculateUtilService;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -124,7 +126,7 @@ public class CheckoutService {
         return modelMapper.map(payment, PaymentDetailDto.class);
     }
 
-    public String checkoutSessionBack(AppointmentIdDto dto) {
+    public String checkoutSessionCallback(AppointmentIdDto dto) {
         Appointment appointment =appointmentService.fetchAppointmentById(dto.getAppointmentId());
         if (appointment.getStatus().equals(AppointmentStatus.IN_PROGRESS)) throw new ValidationException("Appointment is already in-progress");
 

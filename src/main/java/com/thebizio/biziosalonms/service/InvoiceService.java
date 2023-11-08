@@ -53,9 +53,6 @@ public class InvoiceService {
     private AppointmentRepo appointmentRepo;
 
     @Autowired
-    private CalculateUtilService calculatedUtilService;
-
-    @Autowired
     private ObjectMapper objectMapper;
 
     @Autowired
@@ -156,12 +153,13 @@ public class InvoiceService {
                     isFullDiscount = true;
                 }
             }
-            discount = calculateUtilService.roundTwoDigits(discount);
+            discount = CalculateUtilService.roundTwoDigits(discount);
             discountStr = "{\""+promotion.getCode()+"\":"+discount+"}";
         }
 
-        netTotal = isFullDiscount ? 0.0 : calculateUtilService.roundTwoDigits(grossTotal + taxes - discount);
-
+        grossTotal = CalculateUtilService.roundTwoDigits(grossTotal);
+        taxes = CalculateUtilService.roundTwoDigits(taxes);
+        netTotal = isFullDiscount ? 0.0 : CalculateUtilService.roundTwoDigits(grossTotal + taxes - discount);
 
         BillDto invoiceBillDto = new BillDto();
         invoiceBillDto.setGrossTotal(grossTotal);
