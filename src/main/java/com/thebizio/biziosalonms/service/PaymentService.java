@@ -1,14 +1,17 @@
 package com.thebizio.biziosalonms.service;
 
 import com.thebizio.biziosalonms.dto.payment.PaymentListDto;
+import com.thebizio.biziosalonms.entity.Invoice;
 import com.thebizio.biziosalonms.entity.Payment;
+import com.thebizio.biziosalonms.enums.PaymentTypeEnum;
 import com.thebizio.biziosalonms.repo.PaymentRepo;
 import com.thebizio.biziosalonms.specification.PaymentSpecification;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -16,15 +19,23 @@ import java.util.stream.Collectors;
 @Service
 public class PaymentService {
 
-    final PaymentSpecification paymentSpecification;
-    final PaymentRepo paymentRepo;
+    @Autowired
+    private PaymentRepo paymentRepo;
 
-    final ModelMapper modelMapper;
+    @Autowired
+    private PaymentSpecification paymentSpecification;
 
-    public PaymentService(PaymentSpecification paymentSpecification, PaymentRepo paymentRepo, ModelMapper modelMapper) {
-        this.paymentSpecification = paymentSpecification;
-        this.paymentRepo = paymentRepo;
-        this.modelMapper = modelMapper;
+    @Autowired
+    private ModelMapper modelMapper;
+
+
+    public Payment createPayment(PaymentTypeEnum paymentType, String paymentRef, Invoice invoice){
+        Payment payment = new Payment();
+        if (paymentType.equals(PaymentTypeEnum.CASH)) payment.setPaymentDate(LocalDate.now());
+        payment.setPaymentType(paymentType);
+        payment.setPaymentRef(paymentRef);
+        payment.setInvoice(invoice);
+        return paymentRepo.save(payment);
     }
 
     public List<PaymentListDto> listByFilters(Map<String, String> filters) {

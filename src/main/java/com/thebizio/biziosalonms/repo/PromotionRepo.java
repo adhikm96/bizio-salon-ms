@@ -18,6 +18,8 @@ import java.util.UUID;
 public interface PromotionRepo extends JpaRepository<Promotion, UUID> {
     boolean existsByCode(String code);
 
+    Optional<Promotion> findByCode(String promoCode);
+
     @Query("Select p.id as id, p.code as code, p.status as status, p.endDate as endDate, p.maxRedemptions as  maxRedemptions, p.timesRedeemed as timesRedeemed from Promotion p where p.id = :promoId")
     Optional<PromotionDetailPrj> fetchById(UUID promoId);
 

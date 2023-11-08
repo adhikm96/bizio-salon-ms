@@ -1,6 +1,7 @@
 package com.thebizio.biziosalonms.utils;
 
 import com.thebizio.biziosalonms.repo.*;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +33,16 @@ public class DataCleaner {
     TaxScheduleRepo taxScheduleRepo;
 
     @Autowired
+    TaxScheduleItemRepo taxScheduleItemRepo;
+
+    @Autowired
     TaxHeadRepo taxHeadRepo;
+
+    @Autowired
+    PromotionRepo promotionRepo;
+
+    @Autowired
+    CouponRepo couponRepo;
 
     @Autowired
     PaymentRepo paymentRepo;
@@ -40,20 +50,16 @@ public class DataCleaner {
     @Autowired
     InvoiceRepo invoiceRepo;
 
-    @Autowired
-    private CouponRepo couponRepo;
-
-    @Autowired
-    private PromotionRepo promotionRepo;
-
     public void clean() {
-
         promotionRepo.deleteAll();
         couponRepo.deleteAll();
         paymentRepo.deleteAll();
         invoiceRepo.deleteAll();
+        taxScheduleItemRepo.deleteAll();
         taxScheduleRepo.deleteAll();
         appointmentRepo.deleteAll();
+        paymentRepo.deleteAll();
+        invoiceRepo.deleteAll();
         itemRepo.deleteAll();
         taxHeadRepo.deleteAll();
         customerRepo.deleteAll();

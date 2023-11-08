@@ -1,6 +1,7 @@
 package com.thebizio.biziosalonms.service;
 
 import com.thebizio.biziosalonms.enums.BranchStatusEnum;
+import com.thebizio.biziosalonms.enums.InvoiceStatus;
 import com.thebizio.biziosalonms.enums.PaymentTypeEnum;
 import com.thebizio.biziosalonms.enums.StatusEnum;
 import com.thebizio.biziosalonms.exception.ValidationException;
@@ -25,6 +26,14 @@ public class StrUtil {
     public StatusEnum getStatusEnumFrom(String str) {
         try {
             return StatusEnum.valueOf(str);
+        }catch (IllegalArgumentException exception) {
+            throw new ValidationException("incorrect value for status");
+        }
+    }
+
+    public InvoiceStatus getInvoiceStatusEnumFrom(String str) {
+        try {
+            return InvoiceStatus.valueOf(str);
         }catch (IllegalArgumentException exception) {
             throw new ValidationException("incorrect value for status");
         }

@@ -1,8 +1,6 @@
 package com.thebizio.biziosalonms.specification;
 
 import com.thebizio.biziosalonms.entity.TaxSchedule;
-import com.thebizio.biziosalonms.entity.User;
-import com.thebizio.biziosalonms.enums.PaySchedule;
 import com.thebizio.biziosalonms.enums.StatusEnum;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -10,6 +8,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public class TaxScheduleSpecification {
+
     public static Specification<TaxSchedule> findWithFilter(Optional<String> name, Optional<UUID> branch, Optional<StatusEnum> status) {
         return (root, query, criteriaBuilder) -> {
 

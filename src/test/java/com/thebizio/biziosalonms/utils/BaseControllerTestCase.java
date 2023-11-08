@@ -1,5 +1,6 @@
 package com.thebizio.biziosalonms.utils;
 
+import com.thebizio.biziosalonms.entity.User;
 import com.thebizio.biziosalonms.testcontaines.BaseTestContainer;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;

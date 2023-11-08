@@ -2,6 +2,7 @@ package com.thebizio.biziosalonms.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.thebizio.biziosalonms.enums.EmpType;
+import com.thebizio.biziosalonms.enums.GenderEnum;
 import com.thebizio.biziosalonms.enums.PaySchedule;
 import com.thebizio.biziosalonms.enums.StatusEnum;
 import lombok.Getter;
@@ -28,7 +29,9 @@ public class User extends LastUpdateDetail{
     private String username;
     private String email;
     private String mobile;
+    private GenderEnum gender;
 
+    private String avatar;
     private String bizioId;
     private String empCode;
     private EmpType empType;
