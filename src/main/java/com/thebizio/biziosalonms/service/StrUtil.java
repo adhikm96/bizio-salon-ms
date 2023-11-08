@@ -13,9 +13,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.UUID;
 
-@Service
 public class StrUtil {
-    public BranchStatusEnum getEnumFrom(String str) {
+    public static BranchStatusEnum getEnumFrom(String str) {
         try {
             return BranchStatusEnum.valueOf(str);
         }catch (IllegalArgumentException exception) {
@@ -23,7 +22,7 @@ public class StrUtil {
         }
     }
 
-    public StatusEnum getStatusEnumFrom(String str) {
+    public static StatusEnum getStatusEnumFrom(String str) {
         try {
             return StatusEnum.valueOf(str);
         }catch (IllegalArgumentException exception) {
@@ -31,7 +30,7 @@ public class StrUtil {
         }
     }
 
-    public InvoiceStatus getInvoiceStatusEnumFrom(String str) {
+    public static InvoiceStatus getInvoiceStatusEnumFrom(String str) {
         try {
             return InvoiceStatus.valueOf(str);
         }catch (IllegalArgumentException exception) {
@@ -39,7 +38,7 @@ public class StrUtil {
         }
     }
 
-    public PaymentTypeEnum getPaymentTypeFrom(String str) {
+    public static PaymentTypeEnum getPaymentTypeFrom(String str) {
         try {
             return PaymentTypeEnum.valueOf(str);
         }catch (IllegalArgumentException exception) {
@@ -47,7 +46,7 @@ public class StrUtil {
         }
     }
 
-    public UUID parsedUUID(String uuid) {
+    public static UUID parsedUUID(String uuid) {
         try {
             return UUID.fromString(uuid);
         }catch (IllegalArgumentException exception) {
@@ -55,7 +54,7 @@ public class StrUtil {
         }
     }
 
-    public LocalDate parsedLocalDate(String localDate) {
+    public static LocalDate parsedLocalDate(String localDate) {
         try {
             return LocalDate.parse(localDate, DateTimeFormatter.ISO_LOCAL_DATE);
         }catch (DateTimeParseException exception) {
@@ -65,7 +64,7 @@ public class StrUtil {
 
     private static final String ALPHANUMERIC_CHARS = "@#$ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
-    public String generateRandomPromocodeString(){
+    public static String generateRandomPromocodeString(){
         return SecretGenerator.getInstance().randomString(6).toUpperCase();
     }
 }

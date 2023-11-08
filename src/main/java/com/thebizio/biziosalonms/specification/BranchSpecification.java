@@ -12,18 +12,12 @@ import java.util.Map;
 @Service
 public class BranchSpecification {
 
-    final StrUtil strUtil;
-
-    public BranchSpecification(StrUtil strUtil) {
-        this.strUtil = strUtil;
-    }
-
     public Specification<Branch> listWithFilter(@RequestParam Map<String, String> filters) {
         return (root, query, criteriaBuilder) -> {
             Predicate predicate = criteriaBuilder.isNotNull(root.get("id"));
 
             if(filters.containsKey("status") && !filters.get("status").isEmpty())
-                predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("status"), strUtil.getEnumFrom(filters.get("status"))));
+                predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("status"), StrUtil.getEnumFrom(filters.get("status"))));
 
             if(filters.containsKey("zipcode") && !filters.get("zipcode").isEmpty())
                 predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.join("address").get("zipcode"), filters.get("zipcode")));

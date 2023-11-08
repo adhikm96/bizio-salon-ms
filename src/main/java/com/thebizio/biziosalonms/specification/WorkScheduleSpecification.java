@@ -14,18 +14,12 @@ import java.util.Map;
 @Service
 public class WorkScheduleSpecification {
 
-    final StrUtil strUtil;
-
-    public WorkScheduleSpecification(StrUtil strUtil) {
-        this.strUtil = strUtil;
-    }
-
     public Specification<WorkSchedule> listWithFilter(@RequestParam Map<String, String> filters) {
         return (root, query, criteriaBuilder) -> {
             Predicate predicate = criteriaBuilder.isNotNull(root.get("id"));
 
             if(filters.containsKey("status") && !filters.get("status").isEmpty())
-                predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("status"), strUtil.getStatusEnumFrom(filters.get("status"))));
+                predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("status"), StrUtil.getStatusEnumFrom(filters.get("status"))));
 
             if(filters.containsKey("name") && !filters.get("name").isEmpty())
                 predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("name"), filters.get("name")));
