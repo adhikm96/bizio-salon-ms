@@ -79,9 +79,13 @@ public class PersistenceConfiguration {
     }
 
     private Properties hibernateProperties() {
+
         Properties properties = new Properties();
         properties.put("hibernate.show_sql", true);
         properties.put("hibernate.format_sql", true);
+        properties.put("hibernate.implicit_naming_strategy", "jpa");
+        properties.put("hibernate.physical_naming_strategy", "org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy");
+
         return properties;
     }
 }
