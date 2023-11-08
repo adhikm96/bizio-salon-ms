@@ -46,7 +46,7 @@ public class TenantServiceImpl implements TenantService {
     final CryptoService cryptoService;
 
     @Value(("${salon-app-code}"))
-    private String SALONE_APP_CODE;
+    private String SALON_APP_CODE;
 
     public TenantServiceImpl(RestTemplate restTemplate, CryptoService cryptoService) {
         this.restTemplate = restTemplate;
@@ -89,7 +89,7 @@ public class TenantServiceImpl implements TenantService {
     }
 
     private String getTenantListUrl() {
-        return TENANT_SERVICE_URL + "/api/v1/internal/tenants?appCode=" + SALONE_APP_CODE;
+        return TENANT_SERVICE_URL + "/api/v1/internal/tenants?appCode=" + SALON_APP_CODE;
     }
 
 }
