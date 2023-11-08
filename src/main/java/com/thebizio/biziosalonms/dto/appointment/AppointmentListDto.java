@@ -2,6 +2,7 @@ package com.thebizio.biziosalonms.dto.appointment;
 
 import com.thebizio.biziosalonms.dto.branch.BranchListDto;
 import com.thebizio.biziosalonms.dto.customer.CustomerListDto;
+import com.thebizio.biziosalonms.dto.invoice.InvoiceListDto;
 import com.thebizio.biziosalonms.dto.salon_user.UserListDto;
 import com.thebizio.biziosalonms.enums.AppointmentStatus;
 import lombok.AllArgsConstructor;
@@ -33,8 +34,8 @@ public class AppointmentListDto {
 
     private String rescheduledBy; //Customer | Salon
 
-    private AppointmentListDto rescheduledWith;
+    private RescheduleAppointmentDto rescheduledWith;
 
-    private RescheduleAppointmentDto invoice;
+    private InvoiceListDto invoice;
 
 }

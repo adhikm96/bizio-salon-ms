@@ -20,9 +20,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 public class AppointmentControllerTest extends BaseControllerTestCase {
-    @Autowired
-    SalonUserService salonUserService;
-
     Appointment appointment1;
     Appointment appointment2;
 
@@ -50,7 +47,6 @@ public class AppointmentControllerTest extends BaseControllerTestCase {
         mvc.perform(mvcReqHelper.setUp(get("/api/v1/appointments?assignedTo="+appointment2.getAssignedTo().getId()), demoEntitiesGenerator.getAdminUser()))
                 .andExpect(jsonPath("$.length()", is(1)));
     }
-
 
     @Test
     void createAppointmentTest() throws Exception {
