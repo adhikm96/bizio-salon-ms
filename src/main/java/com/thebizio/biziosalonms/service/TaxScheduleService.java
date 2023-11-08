@@ -40,9 +40,6 @@ public class TaxScheduleService {
     @Autowired
     private TaxHeadService taxHeadService;
 
-    @Autowired
-    private CalculateUtilService calculateUtilService;
-
     public List<TaxScheduleListDto> getAllTaxSchedule(Optional<String> name, Optional<UUID> branch, Optional<StatusEnum> status) {
         List<TaxSchedule> taxSchedules = taxScheduleRepo.findAll(TaxScheduleSpecification.findWithFilter(name, branch, status),
                 Sort.by(Sort.Direction.DESC,"modified"));
@@ -128,7 +125,7 @@ public class TaxScheduleService {
             itemTaxDetail.setTaxCode(taxItem.getTaxHead().getCode());
             itemTaxDetail.setTaxChargeType(taxItem.getTaxChargeType());
             itemTaxDetail.setTax((double) taxItem.getValue());
-            itemTaxDetail.setTaxCalculated(taxItem.getTaxChargeType().equals(TaxChargeTypeEnum.AMOUNT) ? (double) taxItem.getValue():calculateUtilService.roundTwoDigits(item.getPrice() * taxItem.getValue()/100));
+            itemTaxDetail.setTaxCalculated(taxItem.getTaxChargeType().equals(TaxChargeTypeEnum.AMOUNT) ? (double) taxItem.getValue():CalculateUtilService.roundTwoDigits(item.getPrice() * taxItem.getValue()/100));
         }
         return itemTaxDetail;
     }
@@ -146,7 +143,7 @@ public class TaxScheduleService {
                 grossTotalTaxDetail.setGrossTotal(grossTotal);
                 grossTotalTaxDetail.setTaxChargeType(taxItem.getTaxChargeType());
                 grossTotalTaxDetail.setTax((double) taxItem.getValue());
-                grossTotalTaxDetail.setTaxCalculated(taxItem.getTaxChargeType().equals(TaxChargeTypeEnum.AMOUNT) ? (double) taxItem.getValue():calculateUtilService.roundTwoDigits(grossTotal * taxItem.getValue()/100));
+                grossTotalTaxDetail.setTaxCalculated(taxItem.getTaxChargeType().equals(TaxChargeTypeEnum.AMOUNT) ? (double) taxItem.getValue():CalculateUtilService.roundTwoDigits(grossTotal * taxItem.getValue()/100));
                 grossTotalTaxDetailSet.add(grossTotalTaxDetail);
             }
         });

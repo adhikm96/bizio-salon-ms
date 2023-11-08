@@ -47,9 +47,6 @@ public class InvoiceService {
     private TaxScheduleItemRepo taxScheduleItemRepo;
 
     @Autowired
-    private CalculateUtilService calculateUtilService;
-
-    @Autowired
     private AppointmentRepo appointmentRepo;
 
     @Autowired
