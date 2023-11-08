@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.transaction.Transactional;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -54,6 +55,7 @@ public class WorkScheduleControllerTestCase extends BaseControllerTestCase {
 
 
     @Test
+    @Transactional
     void updateTest() throws Exception {
 
         WorkSchedule ws = demoEntitiesGenerator.getWorkSchedule();
@@ -93,6 +95,7 @@ public class WorkScheduleControllerTestCase extends BaseControllerTestCase {
     }
 
     @Test
+    @Transactional
     void getTest() throws Exception {
 
         WorkSchedule workSchedule = demoEntitiesGenerator.getWorkSchedule();

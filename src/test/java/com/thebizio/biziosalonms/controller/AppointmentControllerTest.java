@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Collections;
@@ -49,6 +50,7 @@ public class AppointmentControllerTest extends BaseControllerTestCase {
     }
 
     @Test
+    @Transactional
     void createAppointmentTest() throws Exception {
         CustomerUser customerUser = demoEntitiesGenerator.getCustomer();
         Branch branch = demoEntitiesGenerator.getBranch();
