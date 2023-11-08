@@ -33,9 +33,6 @@ public class PromotionService {
     private ModelMapper modelMapper;
 
     @Autowired
-    private StrUtil strUtil;
-
-    @Autowired
     private CouponService couponService;
 
     public Promotion findByCode(String code){
@@ -119,7 +116,7 @@ public class PromotionService {
     }
 
     private String generateUniquePromoCode() {
-        String code = strUtil.generateRandomPromocodeString();
+        String code = StrUtil.generateRandomPromocodeString();
 
         if (promotionRepo.existsByCode(code)) {
             // recursion call if the code already exists

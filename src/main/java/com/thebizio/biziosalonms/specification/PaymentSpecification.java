@@ -12,27 +12,21 @@ import java.util.UUID;
 @Service
 public class PaymentSpecification {
 
-    final StrUtil strUtil;
-
-    public PaymentSpecification(StrUtil strUtil) {
-        this.strUtil = strUtil;
-    }
-
     public Specification<Payment> withFilters(Map<String, String> filters) {
         return (root, query, criteriaBuilder) -> {
             Predicate predicate = criteriaBuilder.isNotNull(root.get("id"));
 
             if(filters.containsKey("paymentType") && !filters.get("paymentType").isEmpty())
-                predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("paymentType"), strUtil.getPaymentTypeFrom(filters.get("paymentType"))));
+                predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("paymentType"), StrUtil.getPaymentTypeFrom(filters.get("paymentType"))));
 
             if(filters.containsKey("paymentDate") && !filters.get("paymentDate").isEmpty())
-                predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("paymentDate"), strUtil.parsedLocalDate(filters.get("paymentDate"))));
+                predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("paymentDate"), StrUtil.parsedLocalDate(filters.get("paymentDate"))));
 
             if(filters.containsKey("invoice") && !filters.get("invoice").isEmpty())
-                predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.join("invoice").get("id"), strUtil.parsedUUID(filters.get("invoice"))));
+                predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.join("invoice").get("id"), StrUtil.parsedUUID(filters.get("invoice"))));
 
             if(filters.containsKey("branch") && !filters.get("branch").isEmpty())
-                predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.join("invoice").join("branch").get("id"), strUtil.parsedUUID(filters.get("branch"))));
+                predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.join("invoice").join("branch").get("id"), StrUtil.parsedUUID(filters.get("branch"))));
 
             return query.where(predicate).getRestriction();
         };
