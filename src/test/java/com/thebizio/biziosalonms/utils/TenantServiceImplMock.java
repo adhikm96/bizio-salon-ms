@@ -1,7 +1,7 @@
 package com.thebizio.biziosalonms.utils;
 
 import com.thebizio.biziosalonms.dto.multi_data_source.TenantListDto;
-import com.thebizio.biziosalonms.service.TenantService;
+import com.thebizio.biziosalonms.service.multi_data_source.TenantService;
 import com.thebizio.biziosalonms.service.flyway.DBMigrateService;
 import com.thebizio.biziosalonms.service.multi_data_source.DBUtil;
 import com.thebizio.biziosalonms.testcontaines.BaseTestContainer;

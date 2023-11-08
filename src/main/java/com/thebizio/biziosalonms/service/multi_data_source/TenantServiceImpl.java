@@ -1,7 +1,8 @@
-package com.thebizio.biziosalonms.service;
+package com.thebizio.biziosalonms.service.multi_data_source;
 
 import com.thebizio.biziosalonms.dto.multi_data_source.TenantListDto;
 import com.thebizio.biziosalonms.service.crypto.CryptoService;
+import com.thebizio.biziosalonms.service.multi_data_source.TenantService;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.KeycloakBuilder;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,10 +10,8 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -45,6 +44,9 @@ public class TenantServiceImpl implements TenantService {
     final RestTemplate restTemplate;
 
     final CryptoService cryptoService;
+
+    @Value(("${salon-app-code}"))
+    private String SALONE_APP_CODE;
 
     public TenantServiceImpl(RestTemplate restTemplate, CryptoService cryptoService) {
         this.restTemplate = restTemplate;
@@ -87,7 +89,7 @@ public class TenantServiceImpl implements TenantService {
     }
 
     private String getTenantListUrl() {
-        return TENANT_SERVICE_URL + "/api/v1/internal/tenants";
+        return TENANT_SERVICE_URL + "/api/v1/internal/tenants?appCode=" + SALONE_APP_CODE;
     }
 
 }

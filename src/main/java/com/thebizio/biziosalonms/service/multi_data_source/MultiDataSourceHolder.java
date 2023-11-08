@@ -1,7 +1,6 @@
 package com.thebizio.biziosalonms.service.multi_data_source;
 
 import com.thebizio.biziosalonms.dto.multi_data_source.TenantListDto;
-import com.thebizio.biziosalonms.service.TenantService;
 import com.thebizio.biziosalonms.service.crypto.CryptoService;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;

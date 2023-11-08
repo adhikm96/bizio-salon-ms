@@ -1,4 +1,4 @@
-package com.thebizio.biziosalonms.service;
+package com.thebizio.biziosalonms.service.multi_data_source;
 
 import com.thebizio.biziosalonms.dto.multi_data_source.TenantListDto;
 
