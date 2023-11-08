@@ -119,7 +119,8 @@ public class WorkScheduleControllerTestCase extends BaseControllerTestCase {
         mvc.perform(mvcReqHelper.setUp(get("/api/v1/works-schedules"), demoEntitiesGenerator.getAdminUser()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].status", is(ws.getStatus().toString())))
-                .andExpect(jsonPath("$[0].name", is(ws.getName())));
+                .andExpect(jsonPath("$[0].name", is(ws.getName())))
+                .andExpect(jsonPath("$[0].id", is(ws.getId().toString())));
 
         ws = demoEntitiesGenerator.getWorkSchedule(StatusEnum.DISABLED);
 
