@@ -1,5 +1,7 @@
 # bizio-salon-ms
 
+Handle company(multi-tenant database) and thier branches of salon and handle customer appoinments.
+
 ## Environment Variables
       KEYCLOAK_REALM: Admin Auth to login
       KEYCLOAK_AUTH_SERVER_URL: Auth Server URL (private one if different than public)
